@@ -65,6 +65,9 @@ else
         "qemuzynq")
             mem_size=1024
             ;;
+        "vexpressa9")
+            mem_size=1024
+            ;;
         *)
             mem_size=64
             ;;
@@ -287,6 +290,7 @@ case "$MACHINE" in
     "qemuzynq") ;;
     "akita") ;;
     "spitz") ;;
+    "vexpressa9") ;;
     *)
         echo "Error: Unsupported machine type $MACHINE"
         return 1
@@ -335,9 +339,16 @@ if [ "$FSTYPE" = "nfs" ]; then
     NFSRUNNING="true"
 fi
 
-if [ "$MACHINE" = "qemuarm" -o "$MACHINE" = "qemuarmv6" -o "$MACHINE" = "qemuarmv7" ]; then
+if [ "$MACHINE" = "qemuarm" -o "$MACHINE" = "qemuarmv6" -o "$MACHINE" = "qemuarmv7" -o "$MACHINE" = "vexpressa9" ]; then
     QEMU=qemu-system-arm
-    MACHINE_SUBTYPE=versatilepb
+    #MACHINE_SUBTYPE=versatilepb
+    case "$MACHINE" in
+        "qemuarmv7")
+            MACHINE_SUBTYPE=vexpress-a9
+            ;;
+        *)
+            MACHINE_SUBTYPE=versatilepb
+    esac
     export QEMU_AUDIO_DRV="none"
     QEMU_UI_OPTIONS="$QEMU_UI_OPTIONS"
     # QEMU_UI_OPTIONS="$QEMU_UI_OPTIONS -force-pointer"
@@ -359,6 +370,29 @@ if [ "$MACHINE" = "qemuarm" -o "$MACHINE" = "qemuarmv6" -o "$MACHINE" = "qemuarm
     fi
     if [ "$MACHINE" = "qemuarmv7" ]; then
         QEMUOPTIONS="$QEMUOPTIONS -cpu cortex-a8"
+    fi
+
+    if [ "$MACHINE" = "vexpressa9" ]; then
+        QEMU=qemu-system-arm
+        MACHINE_SUBTYPE=vexpress-a9
+
+        # for now I disabled the rest of the UI stuff
+        #QEMU_UI_OPTIONS="$QEMU_UI_OPTIONS"
+        #QEMU_UI_OPTIONS="-show-cursor -usb -usbdevice wacom-tablet"
+        QEMU_UI_OPTIONS="-show-cursor "
+
+        export QEMU_AUDIO_DRV="none"
+        #SCRIPT_QEMU_OPT="$SCRIPT_QEMU_OPT -serial stdio "
+
+        if [ "$FSTYPE" = "ext3" ]; then
+            #KERNCMDLINE="root=/dev/mmcblk0 rw mem=1024M raid=noautodetect console=tty0 console=ttyAMA0,38400n8 rootwait vmalloc=256MB devtmpfs.mount=0"
+            #QEMUOPTIONS="$QEMU_NETWORK_CMD -M $MACHINE_SUBTYPE -cpu cortex-a9 -sd $IMGNAME"
+            KERNCMDLINE="root=/dev/mmcblk0 rw console=ttyAMA0,115200 console=tty rootwait $KERNEL_NETWORK_CMD mem=$QEMU_MEMORY highres=off"
+            QEMUOPTIONS="$QEMU_NETWORK_CMD -M vexpress-a9 -sd $ROOTFS -no-reboot $QEMU_UI_OPTIONS -cpu cortex-a9"
+            # Add
+            # -serial stdio
+            # To redirect serial to stdio
+        fi
     fi
 fi
 
