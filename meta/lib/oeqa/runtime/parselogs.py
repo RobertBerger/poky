@@ -54,6 +54,11 @@ ignore_errors = {
     'crownbay' : x86_common,
     'genericx86' : x86_common,
     'genericx86-64' : x86_common,
+    'vexpressa9' : [
+        "isp1760 isp1760: can\'t setup: -19",
+        'isp1760 isp1760: Scratch test failed.',
+        'isp1760: Failed to register the HCD device',
+        ] + common_errors,
 }
 
 log_locations = ["/var/log/","/var/log/dmesg", "/tmp/dmesg_output.log"]
