@@ -55,10 +55,9 @@ ignore_errors = {
     'genericx86' : x86_common,
     'genericx86-64' : x86_common,
     'vexpressa9' : [
-        "isp1760 isp1760: can\'t setup: -19",
-        'isp1760 isp1760: Scratch test failed.',
-        'isp1760: Failed to register the HCD device',
         'nxp-isp1760 4f000000.usb: can\'t setup: -19',
+        'nxp-isp1760 4f000000.usb: Scratch test failed.',
+        'isp1760: Failed to register the HCD device',
         'of_amba_device_create(): amba_device_add() failed (-19) for',
         '(EE) Failed to load module "glx" (module does not exist, 0)',
         '(WW) VGA arbiter: cannot open kernel arbiter, no multi-card support',
