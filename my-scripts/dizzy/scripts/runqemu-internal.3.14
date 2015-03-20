@@ -375,7 +375,7 @@ if [ "$MACHINE" = "qemuarm" -o "$MACHINE" = "qemuarmv6" -o "$MACHINE" = "qemuarm
     if [ "$MACHINE" = "vexpressa9" ]; then
         QEMU=qemu-system-arm
         MACHINE_SUBTYPE=vexpress-a9
-        QEMU_SYSTEM_OPTIONS="-dtb $KERNEL-$MACHINE.dtb"
+
         # for now I disabled the rest of the UI stuff
         #QEMU_UI_OPTIONS="$QEMU_UI_OPTIONS"
         #QEMU_UI_OPTIONS="-show-cursor -usb -usbdevice wacom-tablet"
@@ -388,7 +388,7 @@ if [ "$MACHINE" = "qemuarm" -o "$MACHINE" = "qemuarmv6" -o "$MACHINE" = "qemuarm
             #KERNCMDLINE="root=/dev/mmcblk0 rw mem=1024M raid=noautodetect console=tty0 console=ttyAMA0,38400n8 rootwait vmalloc=256MB devtmpfs.mount=0"
             #QEMUOPTIONS="$QEMU_NETWORK_CMD -M $MACHINE_SUBTYPE -cpu cortex-a9 -sd $IMGNAME"
             KERNCMDLINE="root=/dev/mmcblk0 rw console=ttyAMA0,115200 console=tty rootwait $KERNEL_NETWORK_CMD mem=$QEMU_MEMORY highres=off"
-            QEMUOPTIONS="$QEMU_SYSTEM_OPTIONS $QEMU_NETWORK_CMD -M vexpress-a9 -sd $ROOTFS -no-reboot $QEMU_UI_OPTIONS -cpu cortex-a9"
+            QEMUOPTIONS="$QEMU_NETWORK_CMD -M vexpress-a9 -sd $ROOTFS -no-reboot $QEMU_UI_OPTIONS -cpu cortex-a9"
             # Add
             # -serial stdio
             # To redirect serial to stdio
