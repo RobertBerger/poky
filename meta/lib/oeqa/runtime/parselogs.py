@@ -85,7 +85,9 @@ ignore_errors = {
         'isp1760 isp1760: Scratch test failed.',
         'isp1760: Failed to register the HCD device',
         '(EE) Failed to load module "glx" (module does not exist, 0)',
-        '(WW) VGA arbiter: cannot open kernel arbiter, no multi-card support',        
+        '(WW) VGA arbiter: cannot open kernel arbiter, no multi-card support',
+        'nxp-isp1760 4f000000.usb: Scratch test failed.',
+        'of_amba_device_create(): amba_device_add() failed (-19)',
         ] + common_errors,
 }
 
