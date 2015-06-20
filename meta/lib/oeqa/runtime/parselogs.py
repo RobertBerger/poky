@@ -89,6 +89,7 @@ ignore_errors = {
         'nxp-isp1760 4f000000.usb: Scratch test failed.',
         'nxp-isp1760 4f000000.usb: can\'t setup: -19',
         'of_amba_device_create(): amba_device_add() failed (-19)',
+        'CPU PMU: Failed to find logical CPU for cpu',
         ] + common_errors,
 }
 
