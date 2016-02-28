@@ -81,6 +81,13 @@ ignore_errors = {
         'Fatal server error:',
         '(EE) Server terminated with error (1). Closing log file.',
         ] + common_errors,
+    'vexpressa9' : [
+        'isp1760 isp1760: can\'t setup: -19',
+        'isp1760 isp1760: Scratch test failed.',
+        'isp1760: Failed to register the HCD device',
+        '(EE) Failed to load module "glx" (module does not exist, 0)',
+        '(WW) VGA arbiter: cannot open kernel arbiter, no multi-card support',
+        ] + common_errors,
     'emenlow' : [
         '[Firmware Bug]: ACPI: No _BQC method, cannot determine initial brightness',
         '(EE) Failed to load module "psb"',
