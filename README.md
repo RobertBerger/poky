@@ -10,9 +10,13 @@ For now I'll keep it, since the Yocto guys and gals change randomly what's on th
 --------------
 
 git clone git@github.com:RobertBerger/poky.git
+
 cd poky
+
 git remote add official-upstream git://git.yoctoproject.org/poky
+
 git fetch official-upstream
+
 git branch -a
 
 --------------
