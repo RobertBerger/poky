@@ -3,6 +3,8 @@ git fetch url-to-repo branchname:refs/remotes/origin/branchname
 
 git fetch git://git.yoctoproject.org/poky dizzy:refs/remotes/origin/dizzy
 ---
+Update from git.yoctoproject:
+git co master
 >> git remote -v
 
 official-upstream       git://git.yoctoproject.org/poky (fetch)
@@ -21,3 +23,11 @@ From git://git.yoctoproject.org/poky
  + 2942327...a382678 master-next -> official-upstream/master-next  (forced update)
    a3fa5ce..6a1f33c  morty      -> official-upstream/morty
 ---
+My own branch:
+git co master
+git co official-upstream/morty
+git checkout -b 2017-02-14-morty-2.2.1+
+cd my-scripts
+./push-all-to-github.sh
+
+
