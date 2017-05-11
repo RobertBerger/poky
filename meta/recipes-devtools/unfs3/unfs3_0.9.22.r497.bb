@@ -26,8 +26,9 @@ SRC_URI = "http://downloads.yoctoproject.org/mirror/sources/trunk_svn.code.sf.ne
            file://relative_max_socket_path_len.patch \
            file://tcp_no_delay.patch \
           "
-SRC_URI[md5sum] = "2e43e471c77ade0331901c40b8f8e9a3"
-SRC_URI[sha256sum] = "21009468a9ba07b72ea93780d025a63ab4e55bf8fc3127803c296f0900fe1bac"
+
+SRC_URI[md5sum] = "db06a7cdb1c0752d12f45be4e5520d5d"
+SRC_URI[sha256sum] = "0872a96910d1df779390f74375cb50cd2df1c5d9d1ffb016aff596384fdff409"
 
 BBCLASSEXTEND = "native nativesdk"
 
