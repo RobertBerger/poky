@@ -25,8 +25,9 @@ From git://git.yoctoproject.org/poky
 ---
 My own branch:
 git co master
-git co official-upstream/morty
-git checkout -b 2017-02-14-morty-2.2.1+
+git co official-upstream/pyro
+git checkout -b 2017-05-14-pyro-2.3+
+git co master
 cd my-scripts
 ./push-all-to-github.sh
 
