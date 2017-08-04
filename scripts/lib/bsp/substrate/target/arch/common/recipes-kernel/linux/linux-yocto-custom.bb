@@ -44,6 +44,7 @@ SRC_URI += "file://defconfig"
 
 SRC_URI += "file://{{=machine}}.scc \
             file://{{=machine}}.cfg \
+            file://{{=machine}}-user-features.scc \
            "
 # {{=machine}}-user-config.cfg and
 # {{=machine}}-user-patches.scc are
