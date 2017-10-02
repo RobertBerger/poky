@@ -36,14 +36,21 @@ SRC_URI = "{{=custom_kernel_remote_path}};protocol=git;bareclone=1;branch=${KBRA
 {{ if kernel_choice == "custom" and custom_kernel_remote == "n": }}
 SRC_URI = "git://{{=custom_kernel_local_path}};protocol=file;bareclone=1;branch=${KBRANCH}"
 
+{{ if in_tree_defconfig_choice == "n": }}
 SRC_URI += "file://defconfig"
+
+{{ if kernel_choice == "custom" and in_tree_defconfig_choice == "y": }}
+# SRC_URI += "file://defconfig"
 
 SRC_URI += "file://{{=machine}}.scc \
             file://{{=machine}}.cfg \
-            file://{{=machine}}-user-config.cfg \
-            file://{{=machine}}-user-patches.scc \
             file://{{=machine}}-user-features.scc \
            "
+# {{=machine}}-user-config.cfg and
+# {{=machine}}-user-patches.scc are
+# included by {{=machine}}.scc
+# removed from SRC_URI to avoid double inclusion
+# and like this avoiding applying same patch twice
 
 {{ if kernel_choice == "custom" and custom_kernel_need_kbranch == "y" and custom_kernel_kbranch and custom_kernel_kbranch != "master": }}
 KBRANCH = "{{=custom_kernel_kbranch}}"
@@ -54,5 +61,11 @@ LINUX_VERSION_EXTENSION ?= "{{=custom_kernel_linux_version_extension}}"
 SRCREV="{{=custom_kernel_srcrev}}"
 
 PV = "${LINUX_VERSION}+git${SRCPV}"
+
+{{ if kernel_choice == "custom" and in_tree_defconfig_choice == "y": }}
+# Let's try an in-tree defconfig:
+KERNEL_DEFCONFIG_{{=machine}} ?= "{{=custom_kernel_defconfig}}"
+KBUILD_DEFCONFIG_{{=machine}} ?= "{{=custom_kernel_defconfig}}"
+KCONFIG_MODE="--alldefconfig"
 
 COMPATIBLE_MACHINE_{{=machine}} = "{{=machine}}"
