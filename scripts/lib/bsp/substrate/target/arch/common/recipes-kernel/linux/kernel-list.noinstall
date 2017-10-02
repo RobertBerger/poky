@@ -23,4 +23,10 @@
 {{ input type:"edit" name:"custom_kernel_linux_version_extension" prio:"20" msg:"Please enter a Linux version extension if you want (it will show up at the end of the kernel name shown by uname):" default:"-custom"}}
 
 {{ if kernel_choice == "custom": }}
+{{ input type:"boolean" name:"in_tree_defconfig_choice" prio:"20" msg:"Do you want to use and in-tree defconfig? (y/n)" default:"n"}}
+
+{{ if kernel_choice == "custom" and in_tree_defconfig_choice == "n": }}
 {{ input type:"edit-file" name:"custom_kernel_defconfig" prio:"20" msg:"It's recommended (but not required) that custom kernels be built using a defconfig.  Please enter the full path to the defconfig for your kernel (NOTE: if you don't specify a defconfig the kernel probably won't build or boot):" default:""}}
+
+{{ if kernel_choice == "custom" and in_tree_defconfig_choice == "y": }}
+{{ input type:"edit" name:"custom_kernel_defconfig" prio:"20" msg:"Please enter your in-tree defconfig for your kernel:" default:"multi_v7_defconfig"}}
