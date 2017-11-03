@@ -1,0 +1,15 @@
+Bottom: fdbfff3c6657d33fbc9693a42571291fb447ec34
+Top:    3d1d3458e77b7e67f02bad7b5d42dbe1ea6eb4e7
+Author: Robert Berger <robert.berger@ReliableEmbeddedSystems.com>
+Date:   2017-10-03 23:47:31 +0300
+
+pkgdataui fix permissions
+
+Signed-off-by: Robert Berger <robert.berger@ReliableEmbeddedSystems.com>
+
+
+---
+
+diff --git a/scripts/pkgdataui.py b/scripts/pkgdataui.py
+old mode 100644
+new mode 100755
