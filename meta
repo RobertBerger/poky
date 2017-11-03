@@ -1,9 +1,10 @@
 Version: 1
-Previous: 68d06490cd5457d18c7c216f65d8d7dc86d17f1d
-Head: fa4a2f97803b64eb551c2496db37afdc913df7c7
+Previous: 770acc34e86746de27facb88c193f2f5cc8aacd6
+Head: 298820ee45781a5326216692274bf4a79cef1050
 Applied:
   subject-patch-pkgdataui-is-a: 2d18f25e86dcd12d65b1ed17cad6e3dfff8bc0ef
   0002-PATCH-hacked-bsp-tool-fixed-also-user-features.patch: bc077c1e4db13504cc6ee30af4696d177cffa3ad
   0004-rocko-linux-yocto-custom.bb-no-more-double-inclusion.patch: fa4a2f97803b64eb551c2496db37afdc913df7c7
+  0005-poky-LICENSE-in-packagegroup-makes-no-sense-removed.patch: 298820ee45781a5326216692274bf4a79cef1050
 Unapplied:
 Hidden:
