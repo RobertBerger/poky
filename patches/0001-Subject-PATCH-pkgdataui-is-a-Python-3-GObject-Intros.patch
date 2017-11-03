@@ -1,7 +1,7 @@
 Bottom: 1e75d2c8bd68630e3387cf6409774bf031a0fc4d
-Top:    9a6cfaba8d22122003cc31679da9e3d9bef0aa11
+Top:    b98baaf90dfd3df01c7561ad7e9d3e34b923577f
 Author: Robert Berger <robert.berger@ReliableEmbeddedSystems.com>
-Date:   2017-11-03 14:09:20 +0200
+Date:   2017-10-02 08:53:13 +0300
 
 Subject: [PATCH] pkgdataui is a Python 3/GObject Introspection/GTK+ 3 tool to  browse the pkgdata database at your leisure. By being graphical it is easier  to explore and can follow links between packages.
 
@@ -9,6 +9,7 @@ This is very much a work in progress, so be gentle and patches are welcome.
 
 Signed-off-by: Ross Burton <ross.burton-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
 Signed-off-by: Robert Berger <robert.berger@ReliableEmbeddedSystems.com>
+
 
 ---
 
@@ -354,7 +355,7 @@ index 0000000..04e987b
 +  </object>
 +</interface>
 diff --git a/scripts/pkgdataui.py b/scripts/pkgdataui.py
-new file mode 100755
+new file mode 100644
 index 0000000..f6b23fc
 --- /dev/null
 +++ b/scripts/pkgdataui.py
