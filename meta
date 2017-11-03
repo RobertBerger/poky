@@ -1,6 +1,7 @@
 Version: 1
-Previous: None
-Head: f7b90ab3eaf832bd81f3efc1dab4dcf6863ac284
+Previous: e3c42957eeaabbdbe9e6248d3959fe818f7c889c
+Head: ae22124cf4032a8408ac4b281fae053711ebd790
 Applied:
+  0001-Subject-PATCH-pkgdataui-is-a-Python-3-GObject-Intros.patch: ae22124cf4032a8408ac4b281fae053711ebd790
 Unapplied:
 Hidden:
