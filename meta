@@ -1,9 +1,8 @@
 Version: 1
-Previous: 692f4018142fc6678cb3116e865ca04d6e8b62f4
-Head: a974e6b622f98cd4dcd2aba8a5e727b07ac5077e
+Previous: fff4ea5001e0a10a20cbba5f6904e93eb1c6c89d
+Head: 21443de7bc9ccb5cc069c0c6881213aaccb1f345
 Applied:
-  0001-Subject-PATCH-pkgdataui-is-a-Python-3-GObject-Intros.patch: ae22124cf4032a8408ac4b281fae053711ebd790
-  0002-PATCH-hacked-bsp-tool-fixed-also-user-features.patch: f5c1b2853866fb8930cbcb97a294c9be20e132ac
-  0003-pkgdataui-fix-permissions.patch: a974e6b622f98cd4dcd2aba8a5e727b07ac5077e
+  subject-patch-pkgdataui-is-a: c27023ea1c2c2201e1f79c4975686f62bc4763fa
+  0002-PATCH-hacked-bsp-tool-fixed-also-user-features.patch: 21443de7bc9ccb5cc069c0c6881213aaccb1f345
 Unapplied:
 Hidden:
