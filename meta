@@ -1,7 +1,8 @@
 Version: 1
-Previous: dd390eadd354c334e913eb6ff2f58a2714cdc39e
-Head: 98c7f5897f33d8ebf481b41a6ce4863c19908b3f
+Previous: 06fae5fac655ae2d6493c7202efc14b1b8e003ea
+Head: 270cb4fa5bf7888d6b74aed3598e5e0f339dd95a
 Applied:
   0001-Subject-PATCH-pkgdataui-is-a-Python-3-GObject-Intros.patch: 98c7f5897f33d8ebf481b41a6ce4863c19908b3f
+  0002-PATCH-hacked-bsp-tool-fixed-also-user-features.patch: 270cb4fa5bf7888d6b74aed3598e5e0f339dd95a
 Unapplied:
 Hidden:
