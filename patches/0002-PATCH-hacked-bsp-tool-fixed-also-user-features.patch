@@ -1,0 +1,147 @@
+Bottom: 5f7d68a6fa886366a5291aee460ffcd192a77451
+Top:    609d30d85efb1015d5042ce3700df064e8fd17f6
+Author: Robert Berger <robert.berger@ReliableEmbeddedSystems.com>
+Date:   2017-10-02 08:54:44 +0300
+
+[PATCH] hacked bsp-tool, fixed also user-features
+
+Signed-off-by: Robert Berger <robert.berger@ReliableEmbeddedSystems.com>
+
+
+---
+
+diff --git a/scripts/lib/bsp/substrate/target/arch/arm/conf/machine/machine.conf b/scripts/lib/bsp/substrate/target/arch/arm/conf/machine/machine.conf
+index 624750c..2fa1efd 100644
+--- a/scripts/lib/bsp/substrate/target/arch/arm/conf/machine/machine.conf
++++ b/scripts/lib/bsp/substrate/target/arch/arm/conf/machine/machine.conf
+@@ -32,6 +32,7 @@ EXTRA_IMAGEDEPENDS += "u-boot"
+ {{ input type:"choice" val:"tune_iwmmxt" msg:"iwmmxt tuning optimizations" }}
+ {{ input type:"choice" val:"tune_strongarm1100" msg:"strongarm1100 tuning optimizations" }}
+ {{ input type:"choice" val:"tune_xscale" msg:"xscale tuning optimizations" }}
++{{ input type:"choice" val:"tune_armv7a" msg:"arch-armv7a+armv7a-neon" }}
+ {{ if tunefile == "tune_arm1136jf_s": }}
+ include conf/machine/include/tune-arm1136jf-s.inc
+ {{ if tunefile == "tune_arm920t": }}
+@@ -65,17 +66,38 @@ include conf/machine/include/tune-iwmmxt.inc
+ include conf/machine/include/tune-strongarm1100.inc
+ {{ if tunefile == "tune_xscale": }}
+ include conf/machine/include/tune-xscale.inc
++{{ if tunefile == "tune_armv7a":}}
++DEFAULTTUNE = "armv7a-neon"
++include conf/machine/include/arm/arch-armv7a.inc
+ 
+-IMAGE_FSTYPES += "tar.bz2 jffs2"
+-EXTRA_IMAGECMD_jffs2 = "-lnp "
++IMAGE_FSTYPES += "tar.bz2"
+ 
+-SERIAL_CONSOLE = "115200 ttyO0"
++SERIAL_CONSOLES="115200;console"
+ 
+ {{ if kernel_choice == "custom": preferred_kernel = "linux-yocto-custom" }}
+ {{ if kernel_choice == "linux-yocto-dev": preferred_kernel = "linux-yocto-dev" }}
+ {{ if kernel_choice == "custom" or kernel_choice == "linux-yocto-dev" : }}
+ PREFERRED_PROVIDER_virtual/kernel ?= "{{=preferred_kernel}}"
+ 
++{{ if kernel_choice == "custom": preferred_kernel_version_split_0 = custom_kernel_linux_version.split('.')[0] }}
++{{ if kernel_choice == "custom": preferred_kernel_version_split_1 = custom_kernel_linux_version.split('.')[1] }}
++{{ if kernel_choice == "custom": preferred_kernel_version_split_2 = custom_kernel_linux_version.split('.')[2] }}
++# kernel version
++KERNEL_VERSION_PATCHLEVEL="{{=preferred_kernel_version_split_0}}.{{=preferred_kernel_version_split_1}}"
++KERNEL_SUBLEVEL="{{=preferred_kernel_version_split_2}}"
++PREFERRED_VERSION_{{=preferred_kernel}} = "${KERNEL_VERSION_PATCHLEVEL}.${KERNEL_SUBLEVEL}%"
++
++{{ input type:"boolean" name:"custom_linux_libc_headers" prio:"50" msg:"Do you want custom linux libc headers (exact fit to kernel version) - you might need to add a linux-libc-headers recipe? (y/n)" default:"n" }}
++{{ if custom_linux_libc_headers == "y": }}
++# use instead of "default" version of linux libc headers this version
++# which is an exact fit to the kernel version
++LINUXLIBCVERSION ?= "${KERNEL_VERSION_PATCHLEVEL}"
++{{ if custom_linux_libc_headers == "n": }}
++# use "default" version of linux libc headers
++# it's not an exact fit to the kernel version, but whatever comes with Yocto/OE
++# check the value of LINUXLIBCVERSION for the exact version
++# LINUXLIBCVERSION ?= "${KERNEL_VERSION_PATCHLEVEL}"
++
+ {{ if kernel_choice != "custom" and kernel_choice != "linux-yocto-dev": preferred_kernel = kernel_choice.split('_')[0] }}
+ {{ if kernel_choice != "custom" and kernel_choice != "linux-yocto-dev": preferred_kernel_version = kernel_choice.split('_')[1] }}
+ {{ if kernel_choice != "custom" and kernel_choice != "linux-yocto-dev": }}
+@@ -83,11 +105,16 @@ PREFERRED_PROVIDER_virtual/kernel ?= "{{=preferred_kernel}}"
+ PREFERRED_VERSION_{{=preferred_kernel}} ?= "{{=preferred_kernel_version}}%"
+ 
+ KERNEL_IMAGETYPE = "uImage"
+-KERNEL_DEVICETREE = "am335x-bone.dtb am335x-boneblack.dtb"
+-KERNEL_EXTRA_ARGS += "LOADADDR=${UBOOT_ENTRYPOINT}"
++{{ input type:"edit" name:"kernel_devicetree" prio:"40" msg:"Please specify a value for KERNEL_DEVICETREE:" default:"am335x-bone.dtb am335x-boneblack.dtb" }}
++KERNEL_DEVICETREE = "{{=kernel_devicetree}}"
++{{ input type:"edit" name:"kernel_extra_args" prio:"40" msg:"Please specify a value for KERNEL_EXTRA_ARGS:" default:"LOADADDR=${UBOOT_ENTRYPOINT} UIMAGE_TYPE=kernel_noload" }}
++KERNEL_EXTRA_ARGS += "{{=kernel_extra_args}} "
++
++{{ input type:"edit" name:"spl_binaryname" prio:"40" msg:"Please specify a value for SPL_BINARYNAME:" default:"MLO" }}
++SPL_BINARYNAME = "{{=spl_binaryname}}"
++{{ input type:"edit" name:"uboot_suffix" prio:"40" msg:"Please specify a value for UBOOT_SUFFIX:" default:"img" }}
++UBOOT_SUFFIX = "{{=uboot_suffix}}"
+ 
+-SPL_BINARY = "MLO"
+-UBOOT_SUFFIX = "img"
+ {{ input type:"edit" name:"uboot_machine" prio:"40" msg:"Please specify a value for UBOOT_MACHINE:" default:"am335x_evm_config" }}
+ UBOOT_MACHINE = "{{=uboot_machine}}"
+ {{ input type:"edit" name:"uboot_entrypoint" prio:"40" msg:"Please specify a value for UBOOT_ENTRYPOINT:" default:"0x80008000" }}
+@@ -97,4 +124,4 @@ UBOOT_LOADADDRESS = "{{=uboot_loadaddress}}"
+ 
+ MACHINE_FEATURES = "usbgadget usbhost vfat alsa"
+ 
+-IMAGE_BOOT_FILES ?= "u-boot.${UBOOT_SUFFIX} MLO"
++IMAGE_BOOT_FILES ?= "u-boot.${UBOOT_SUFFIX} ${SPL_BINARYNAME}"
+diff --git a/scripts/lib/bsp/substrate/target/arch/common/recipes-kernel/linux/kernel-list.noinstall b/scripts/lib/bsp/substrate/target/arch/common/recipes-kernel/linux/kernel-list.noinstall
+index 663dddb..cb66eba7 100644
+--- a/scripts/lib/bsp/substrate/target/arch/common/recipes-kernel/linux/kernel-list.noinstall
++++ b/scripts/lib/bsp/substrate/target/arch/common/recipes-kernel/linux/kernel-list.noinstall
+@@ -23,4 +23,10 @@
+ {{ input type:"edit" name:"custom_kernel_linux_version_extension" prio:"20" msg:"Please enter a Linux version extension if you want (it will show up at the end of the kernel name shown by uname):" default:"-custom"}}
+ 
+ {{ if kernel_choice == "custom": }}
++{{ input type:"boolean" name:"in_tree_defconfig_choice" prio:"20" msg:"Do you want to use and in-tree defconfig? (y/n)" default:"n"}}
++
++{{ if kernel_choice == "custom" and in_tree_defconfig_choice == "n": }}
+ {{ input type:"edit-file" name:"custom_kernel_defconfig" prio:"20" msg:"It's recommended (but not required) that custom kernels be built using a defconfig.  Please enter the full path to the defconfig for your kernel (NOTE: if you don't specify a defconfig the kernel probably won't build or boot):" default:""}}
++
++{{ if kernel_choice == "custom" and in_tree_defconfig_choice == "y": }}
++{{ input type:"edit" name:"custom_kernel_defconfig" prio:"20" msg:"Please enter your in-tree defconfig for your kernel:" default:"multi_v7_defconfig"}}
+diff --git a/scripts/lib/bsp/substrate/target/arch/common/recipes-kernel/linux/linux-yocto-custom.bb b/scripts/lib/bsp/substrate/target/arch/common/recipes-kernel/linux/linux-yocto-custom.bb
+index 3ba4226..3e367c6 100644
+--- a/scripts/lib/bsp/substrate/target/arch/common/recipes-kernel/linux/linux-yocto-custom.bb
++++ b/scripts/lib/bsp/substrate/target/arch/common/recipes-kernel/linux/linux-yocto-custom.bb
+@@ -36,14 +36,21 @@ SRC_URI = "{{=custom_kernel_remote_path}};protocol=git;bareclone=1;branch=${KBRA
+ {{ if kernel_choice == "custom" and custom_kernel_remote == "n": }}
+ SRC_URI = "git://{{=custom_kernel_local_path}};protocol=file;bareclone=1;branch=${KBRANCH}"
+ 
++{{ if in_tree_defconfig_choice == "n": }}
+ SRC_URI += "file://defconfig"
+ 
++{{ if kernel_choice == "custom" and in_tree_defconfig_choice == "y": }}
++# SRC_URI += "file://defconfig"
++
+ SRC_URI += "file://{{=machine}}.scc \
+             file://{{=machine}}.cfg \
+-            file://{{=machine}}-user-config.cfg \
+-            file://{{=machine}}-user-patches.scc \
+             file://{{=machine}}-user-features.scc \
+            "
++# {{=machine}}-user-config.cfg and
++# {{=machine}}-user-patches.scc are
++# included by {{=machine}}.scc
++# removed from SRC_URI to avoid double inclusion
++# and like this avoiding applying same patch twice
+ 
+ {{ if kernel_choice == "custom" and custom_kernel_need_kbranch == "y" and custom_kernel_kbranch and custom_kernel_kbranch != "master": }}
+ KBRANCH = "{{=custom_kernel_kbranch}}"
+@@ -55,4 +62,10 @@ SRCREV="{{=custom_kernel_srcrev}}"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
++{{ if kernel_choice == "custom" and in_tree_defconfig_choice == "y": }}
++# Let's try an in-tree defconfig:
++KERNEL_DEFCONFIG_{{=machine}} ?= "{{=custom_kernel_defconfig}}"
++KBUILD_DEFCONFIG_{{=machine}} ?= "{{=custom_kernel_defconfig}}"
++KCONFIG_MODE="--alldefconfig"
++
+ COMPATIBLE_MACHINE_{{=machine}} = "{{=machine}}"
