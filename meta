@@ -1,8 +1,9 @@
 Version: 1
-Previous: b351117595c0d7bd5e9887aa96e4e823dd62351a
-Head: 089838c77bba71c8e5eec3d81723fc9188df03d2
+Previous: 35033cd330276fd6efef38d935c34a89767cdcc8
+Head: c6c32bba91181d008f6a32f18af7828683703299
 Applied:
   0001-Subject-PATCH-pkgdataui-is-a-Python-3-GObject-Intros.patch: 44d255f8faf682f3b4d89af0f0b218ff5e646d24
   0002-PATCH-hacked-bsp-tool-fixed-also-user-features.patch: 089838c77bba71c8e5eec3d81723fc9188df03d2
+  0003-rocko-linux-yocto-custom.bb-no-more-double-inclusion.patch: c6c32bba91181d008f6a32f18af7828683703299
 Unapplied:
 Hidden:
