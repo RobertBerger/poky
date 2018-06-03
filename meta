@@ -1,8 +1,9 @@
 Version: 1
-Previous: d7bb7846d1b448ac1e2a04df7fc6360d5621299c
-Head: 1d7c4fe36f902c0dccc0bb6767d9cd0f571f47a7
+Previous: f6b0ff7bc3d55e7d48723117e211296e1845940d
+Head: 60108b7ca0e352d250565fa636b09cc0f2d505e0
 Applied:
   0001-Subject-PATCH-pkgdataui-is-a-Python-3-GObject-Intros.patch: c0235114048a804d427d621f43a10d0aea69f1b2
   0002-added-kernel-tooling-back-in.patch: 1d7c4fe36f902c0dccc0bb6767d9cd0f571f47a7
+  0003-devicetree.bbclass-User-BSP-device-tree-source-compi.patch: 60108b7ca0e352d250565fa636b09cc0f2d505e0
 Unapplied:
 Hidden:
