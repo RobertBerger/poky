@@ -1,0 +1,48 @@
+Bottom: 26bc66949578c2685daf662dc76caae4cf28c1fb
+Top:    f99c80e657702f7c1b6a99c1ac56faaa74483cce
+Author: Anuj Mittal <anuj.mittal@intel.com>
+Date:   2018-06-11 16:29:01 +0800
+
+bitbake-layers/create: add LAYERSERIES_COMPAT
+
+Derive the value for template layer.conf from core layer and add
+dependendency on it too.
+
+Fixes [YOCTO #12767]
+
+(From OE-Core rev: 461c305078c40fca8b5382e393e3e8513d4abfa4)
+
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+
+---
+
+diff --git a/meta/lib/bblayers/create.py b/meta/lib/bblayers/create.py
+index 6a41fe0..22f87e7 100644
+--- a/meta/lib/bblayers/create.py
++++ b/meta/lib/bblayers/create.py
+@@ -43,8 +43,11 @@ class CreatePlugin(LayerPlugin):
+         license_dst = os.path.join(layerdir, copying)
+         shutil.copy(license_src, license_dst)
+ 
++        # Get the compat value for core layer.
++        compat = self.tinfoil.config_data.getVar('LAYERSERIES_COMPAT_core') or ""
++
+         # Create the layer.conf from templates/layer.conf
+-        layerconf_template = read_template('layer.conf') % (args.layerdir, args.layerdir, args.layerdir, args.priority)
++        layerconf_template = read_template('layer.conf') % (args.layerdir, args.layerdir, args.layerdir, args.priority, args.layerdir, args.layerdir, compat)
+         layerconf = os.path.join(conf, 'layer.conf')
+         with open(layerconf, 'w') as fd:
+             fd.write(layerconf_template)
+diff --git a/meta/lib/bblayers/templates/layer.conf b/meta/lib/bblayers/templates/layer.conf
+index 3c03002..49f95ca 100644
+--- a/meta/lib/bblayers/templates/layer.conf
++++ b/meta/lib/bblayers/templates/layer.conf
+@@ -8,3 +8,6 @@ BBFILES += "${LAYERDIR}/recipes-*/*/*.bb \
+ BBFILE_COLLECTIONS += "%s"
+ BBFILE_PATTERN_%s = "^${LAYERDIR}/"
+ BBFILE_PRIORITY_%s = "%s"
++
++LAYERDEPENDS_%s = "core"
++LAYERSERIES_COMPAT_%s = "%s"

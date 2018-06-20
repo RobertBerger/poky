@@ -1,6 +1,7 @@
 Version: 1
-Previous: e20d7d71b19aa0f0a1de2c8e226f00fbca788a6c
-Head: bc53645fcd989d89fdf16365a0be5514cf0939bb
+Previous: 781aa8ce80288c5ee1b61667d96a43180a1944e1
+Head: 0f3d7a5c921e204575adc6fca9b0b21b41d21d52
 Applied:
+  0005-bitbake-layers-create-add-LAYERSERIES_COMPAT.patch: 0f3d7a5c921e204575adc6fca9b0b21b41d21d52
 Unapplied:
 Hidden:
