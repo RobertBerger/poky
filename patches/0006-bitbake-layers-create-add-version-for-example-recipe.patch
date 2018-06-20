@@ -1,0 +1,39 @@
+Bottom: f99c80e657702f7c1b6a99c1ac56faaa74483cce
+Top:    3f198e7b3f3e682221eec84414205ef1c94df601
+Author: Anuj Mittal <anuj.mittal@intel.com>
+Date:   2018-06-11 09:52:06 +0800
+
+bitbake-blayers/create: add version for example recipe
+
+Add version field in recipe name for example recipe created by
+bitbake-layers.
+
+Fixes [YOCTO #12767]
+
+(From OE-Core rev: c62f6b9643d31b465ea0e919882e411a5ed35c56)
+
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+
+---
+
+diff --git a/meta/lib/bblayers/create.py b/meta/lib/bblayers/create.py
+index 22f87e7..e06949c 100644
+--- a/meta/lib/bblayers/create.py
++++ b/meta/lib/bblayers/create.py
+@@ -56,7 +56,7 @@ class CreatePlugin(LayerPlugin):
+         example_template = read_template('example.bb')
+         example = os.path.join(layerdir, 'recipes-' + args.examplerecipe, args.examplerecipe)
+         bb.utils.mkdirhier(example)
+-        with open(os.path.join(example, args.examplerecipe + '.bb'), 'w') as fd:
++        with open(os.path.join(example, args.examplerecipe + '_%s.bb') % args.version, 'w') as fd:
+             fd.write(example_template)
+ 
+         logger.plain('Add your new layer with \'bitbake-layers add-layer %s\'' % args.layerdir)
+@@ -66,4 +66,5 @@ class CreatePlugin(LayerPlugin):
+         parser_create_layer.add_argument('layerdir', help='Layer directory to create')
+         parser_create_layer.add_argument('--priority', '-p', default=6, help='Layer directory to create')
+         parser_create_layer.add_argument('--example-recipe-name', '-e', dest='examplerecipe', default='example', help='Filename of the example recipe')
++        parser_create_layer.add_argument('--example-recipe-version', '-v', dest='version', default='0.1', help='Version number for the example recipe')

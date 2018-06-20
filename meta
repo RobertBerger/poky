@@ -1,7 +1,8 @@
 Version: 1
-Previous: 781aa8ce80288c5ee1b61667d96a43180a1944e1
-Head: 0f3d7a5c921e204575adc6fca9b0b21b41d21d52
+Previous: b218877c6f4b1b976938feb851f7e7333faf1584
+Head: a27e383a28b3cca13756e1f9263415e70d6befee
 Applied:
   0005-bitbake-layers-create-add-LAYERSERIES_COMPAT.patch: 0f3d7a5c921e204575adc6fca9b0b21b41d21d52
+  0006-bitbake-layers-create-add-version-for-example-recipe.patch: a27e383a28b3cca13756e1f9263415e70d6befee
 Unapplied:
 Hidden:
