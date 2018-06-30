@@ -1,7 +1,6 @@
 Version: 1
-Previous: 6db79916d399150919f5f67e9f590115148a159e
+Previous: 8b560216d0f4ac257fc7846f797115f67050395c
 Head: 08334587c4e166051bf72585397dd9def8c033a4
 Applied:
-  0007-bitbake-bblayers-create-Fix-layer-name-generation.patch: 08334587c4e166051bf72585397dd9def8c033a4
 Unapplied:
 Hidden:
