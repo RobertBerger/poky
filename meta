@@ -1,7 +1,6 @@
 Version: 1
-Previous: 6cad9afac6cf7ddf7c5d81428cf327cb0c2814a8
+Previous: 3795ee7e57cb24106eb8f9f739264c985c35f976
 Head: e0a8f45152b60c9edf6ba81c291118834203b3a8
 Applied:
-  0003-oldnoconfig-was-removed-from-4.20-kernel-use-olddefc.patch: e0a8f45152b60c9edf6ba81c291118834203b3a8
 Unapplied:
 Hidden:
