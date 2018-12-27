@@ -1,0 +1,77 @@
+Bottom: 58615379b141de469c49a86eea0d21f7e95483f1
+Top:    67188adeddf5686b402454e73dc288dfb0bbffdd
+Author: Robert Berger <robert.berger@ReliableEmbeddedSystems.com>
+Date:   2018-12-27 22:25:17 +0000
+
+bsp tooling updated for thud
+
+Signed-off-by: Robert Berger <robert.berger@ReliableEmbeddedSystems.com>
+
+
+---
+
+diff --git a/scripts/lib/bsp/substrate/target/arch/arm/conf/machine/machine.conf b/scripts/lib/bsp/substrate/target/arch/arm/conf/machine/machine.conf
+index ca89214..36d0a25 100644
+--- a/scripts/lib/bsp/substrate/target/arch/arm/conf/machine/machine.conf
++++ b/scripts/lib/bsp/substrate/target/arch/arm/conf/machine/machine.conf
+@@ -8,10 +8,13 @@
+ {{ if xserver == "y": }}
+ PREFERRED_PROVIDER_virtual/xserver ?= "xserver-xorg"
+ XSERVER ?= "xserver-xorg \
+-           xf86-video-fbdev \
+-           "
++           xf86-video-modesetting \
++"
+ 
+-MACHINE_EXTRA_RRECOMMENDS = " kernel-modules kernel-devicetree"
++# the default MACHINE_EXTRA_RRECOMMENDS
++# would not install the kernel modules on the core-image-minimal rootfs
++# we could also build a core-image-basic to get them included or:
++MACHINE_ESSENTIAL_EXTRA_RDEPENDS += " kernel-modules kernel-devicetree"
+ 
+ EXTRA_IMAGEDEPENDS += "u-boot"
+ 
+@@ -72,12 +75,13 @@ include conf/machine/include/arm/arch-armv7a.inc
+ 
+ IMAGE_FSTYPES += "tar.bz2"
+ 
+-# zedboard:  ttyPS0
+-# sitara:    ttyO0
+-# i.mx6:     ttymxc1
+-# cyclone-v: ttyS0
++# zedboard:   ttyPS0
++# sitara:     ttyO0
++# i.mx6:      ttymxc1
++# i.mx6 wand: ttymxc0
++# cyclone-v:  ttyS0
+ 
+-SERIAL_CONSOLES = "115200;ttyPS0 115200;ttyO0 115200;ttymxc1 115200;ttyS0"
++SERIAL_CONSOLES = "115200;ttyPS0 115200;ttyO0 115200;ttymxc1 115200;ttyS0 115200;ttymxc0"
+ SERIAL_CONSOLES_CHECK = "${SERIAL_CONSOLES}"
+ 
+ {{ if kernel_choice == "custom": preferred_kernel = "linux-yocto-custom" }}
+@@ -123,11 +127,11 @@ UBOOT_SUFFIX = "{{=uboot_suffix}}"
+ 
+ {{ input type:"edit" name:"uboot_machine" prio:"40" msg:"Please specify a value for UBOOT_MACHINE:" default:"am335x_evm_config" }}
+ UBOOT_MACHINE = "{{=uboot_machine}}"
+-{{ input type:"edit" name:"uboot_entrypoint" prio:"40" msg:"Please specify a value for UBOOT_ENTRYPOINT:" default:"0x80008000" }}
++{{ input type:"edit" name:"uboot_entrypoint" prio:"40" msg:"Please specify a value for UBOOT_ENTRYPOINT:" default:"0x00" }}
+ UBOOT_ENTRYPOINT = "{{=uboot_entrypoint}}"
+-{{ input type:"edit" name:"uboot_loadaddress" prio:"40" msg:"Please specify a value for UBOOT_LOADADDRESS:" default:"0x80008000" }}
++{{ input type:"edit" name:"uboot_loadaddress" prio:"40" msg:"Please specify a value for UBOOT_LOADADDRESS:" default:"0x00" }}
+ UBOOT_LOADADDRESS = "{{=uboot_loadaddress}}"
+ 
+ MACHINE_FEATURES = "usbgadget usbhost vfat alsa"
+ 
+-IMAGE_BOOT_FILES ?= "u-boot.${UBOOT_SUFFIX} ${SPL_BINARYNAME}"
++IMAGE_BOOT_FILES ?= "u-boot.${UBOOT_SUFFIX} ${SPL_BINARYNAME} ${KERNEL_IMAGETYPE} ${KERNEL_DEVICETREE}"
+diff --git a/scripts/lib/bsp/substrate/target/arch/common/conf/layer.conf b/scripts/lib/bsp/substrate/target/arch/common/conf/layer.conf
+index 5529f45..195dbf6 100644
+--- a/scripts/lib/bsp/substrate/target/arch/common/conf/layer.conf
++++ b/scripts/lib/bsp/substrate/target/arch/common/conf/layer.conf
+@@ -8,3 +8,5 @@ BBFILES += "${LAYERDIR}/recipes-*/*/*.bb \
+ BBFILE_COLLECTIONS += "{{=machine}}"
+ BBFILE_PATTERN_{{=machine}} = "^${LAYERDIR}/"
+ BBFILE_PRIORITY_{{=machine}} = "6"
++
++LAYERSERIES_COMPAT_{{=machine}} = "thud"
