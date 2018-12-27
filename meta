@@ -1,6 +1,7 @@
 Version: 1
-Previous: 3ccaf50a8dd033d624b8375c439f09f64926bb04
+Previous: eef425182dc1cc2364a278f60a82bfa0db84a47c
 Head: bb258f94a92201bb4647c050129b13c2e6929731
 Applied:
+  0004-bsp-tooling-updated-for-thud.patch: bb258f94a92201bb4647c050129b13c2e6929731
 Unapplied:
 Hidden:
