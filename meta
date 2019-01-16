@@ -1,9 +1,8 @@
 Version: 1
-Previous: 83a61c36c1a9cdd5c859b7b2333f47c8f999a35f
-Head: 3dfb51057cba661939c77bc3149696de57538267
+Previous: 64b4d6336fa95acfa65fa926e500bc4c2a5b40dc
+Head: 953f2d74d3601ca937f6651d78f72a5c20f501ee
 Applied:
   0001-Subject-PATCH-pkgdataui-is-a-Python-3-GObject-Intros.patch: ef7d44aa0680d239daa170b7a778fb1aba0ee180
-  0002-added-kernel-tooling-back-in.patch: 800f28b86c826c02020c00c37e19e85f80338ada
-  0003-bsp-tooling-updated-for-thud.patch: 3dfb51057cba661939c77bc3149696de57538267
+  added-kernel-tooling-back-in: 953f2d74d3601ca937f6651d78f72a5c20f501ee
 Unapplied:
 Hidden:
