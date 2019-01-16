@@ -1,0 +1,25 @@
+Bottom: c088f273e365503b4bb5833405b391734bd1c09f
+Top:    93891f5db5a98957d717abd1eaccedf7c97cc48e
+Author: Robert Berger <robert.berger@ReliableEmbeddedSystems.com>
+Date:   2018-12-27 16:32:58 +0000
+
+oldnoconfig was removed from 4.20 kernel - use olddefconfig instead
+
+Signed-off-by: Robert Berger <robert.berger@ReliableEmbeddedSystems.com>
+
+
+---
+
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index e04d2fe..880c5ef 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -492,7 +492,7 @@ sysroot_stage_all () {
+ 	:
+ }
+ 
+-KERNEL_CONFIG_COMMAND ?= "oe_runmake_call -C ${S} CC="${KERNEL_CC}" O=${B} oldnoconfig"
++KERNEL_CONFIG_COMMAND ?= "oe_runmake_call -C ${S} CC="${KERNEL_CC}" O=${B} olddefconfig || oe_runmake -C ${S} O=${B} CC="${KERNEL_CC}" oldnoconfig"
+ 
+ python check_oldest_kernel() {
+     oldest_kernel = d.getVar('OLDEST_KERNEL')
