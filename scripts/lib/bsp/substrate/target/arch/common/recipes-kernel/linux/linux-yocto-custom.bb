@@ -31,6 +31,9 @@
 inherit kernel
 require recipes-kernel/linux/linux-yocto.inc
 
+# some 4.19.x LIC_FILE_CHECKSUM: 
+LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
+
 {{ if kernel_choice == "custom" and custom_kernel_remote == "y": }}
 SRC_URI = "{{=custom_kernel_remote_path}};protocol=git;bareclone=1;branch=${KBRANCH}"
 {{ if kernel_choice == "custom" and custom_kernel_remote == "n": }}
