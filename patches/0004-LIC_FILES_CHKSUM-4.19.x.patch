@@ -1,0 +1,26 @@
+Bottom: 31656d0ca72c03f7778c9add1f9519f7eea21a65
+Top:    9d0c3d1736c7b81e72831dfc223e02dbe3cc76be
+Author: genius user <genius@ReliableEmbeddedSystems.com>
+Date:   2019-06-17 16:36:45 +0000
+
+LIC_FILES_CHKSUM 4.19.x
+
+Signed-off-by: genius user <genius@ReliableEmbeddedSystems.com>
+
+
+---
+
+diff --git a/scripts/lib/bsp/substrate/target/arch/common/recipes-kernel/linux/linux-yocto-custom.bb b/scripts/lib/bsp/substrate/target/arch/common/recipes-kernel/linux/linux-yocto-custom.bb
+index e3ab09c752..109ef3bcae 100644
+--- a/scripts/lib/bsp/substrate/target/arch/common/recipes-kernel/linux/linux-yocto-custom.bb
++++ b/scripts/lib/bsp/substrate/target/arch/common/recipes-kernel/linux/linux-yocto-custom.bb
+@@ -31,6 +31,9 @@
+ inherit kernel
+ require recipes-kernel/linux/linux-yocto.inc
+ 
++# some 4.19.x LIC_FILE_CHECKSUM: 
++LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
++
+ {{ if kernel_choice == "custom" and custom_kernel_remote == "y": }}
+ SRC_URI = "{{=custom_kernel_remote_path}};protocol=git;bareclone=1;branch=${KBRANCH}"
+ {{ if kernel_choice == "custom" and custom_kernel_remote == "n": }}
