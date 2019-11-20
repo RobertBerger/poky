@@ -1,9 +1,8 @@
 Version: 1
-Previous: 437d758c7b4e472f9c60d8eafad926b25f6a6f35
-Head: ca115b4c8dca853b5b412e45619b182250921053
+Previous: dffd16267118f6bee6e5b3304168364dde59d745
+Head: 8944335c7600a91b770086847d207f85aa421334
 Applied:
   0001-Subject-PATCH-pkgdataui-is-a-Python-3-GObject-Intros.patch: 283aa86cde3e60b18ceeb1af7e44e067a60b407c
-  added-kernel-tooling-back-in: a783e56995e0ec4e1d9ea1c11c2e0733c55c13e1
-  0004-LIC_FILES_CHKSUM-4.19.x.patch: ca115b4c8dca853b5b412e45619b182250921053
+  added-kernel-tooling-back-in: 8944335c7600a91b770086847d207f85aa421334
 Unapplied:
 Hidden:

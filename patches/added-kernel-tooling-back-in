@@ -1,7 +1,7 @@
 Bottom: 995c7c796dd18d05dc72c0113da163449a118bd7
-Top:    31656d0ca72c03f7778c9add1f9519f7eea21a65
+Top:    9d0c3d1736c7b81e72831dfc223e02dbe3cc76be
 Author: Robert Berger <robert.berger@ReliableEmbeddedSystems.com>
-Date:   2019-11-20 11:27:15 +0200
+Date:   2019-11-20 11:28:34 +0200
 
 added kernel tooling back in, bsp tooling updated
 
@@ -5333,10 +5333,10 @@ index 0000000000..cb66eba7f8
 +{{ input type:"edit" name:"custom_kernel_defconfig" prio:"20" msg:"Please enter your in-tree defconfig for your kernel:" default:"multi_v7_defconfig"}}
 diff --git a/scripts/lib/bsp/substrate/target/arch/common/recipes-kernel/linux/linux-yocto-custom.bb b/scripts/lib/bsp/substrate/target/arch/common/recipes-kernel/linux/linux-yocto-custom.bb
 new file mode 100644
-index 0000000000..e3ab09c752
+index 0000000000..109ef3bcae
 --- /dev/null
 +++ b/scripts/lib/bsp/substrate/target/arch/common/recipes-kernel/linux/linux-yocto-custom.bb
-@@ -0,0 +1,68 @@
+@@ -0,0 +1,71 @@
 +# yocto-bsp-filename {{ if kernel_choice == "custom": }} this
 +# This file was derived from the linux-yocto-custom.bb recipe in
 +# oe-core.
@@ -5369,6 +5369,9 @@ index 0000000000..e3ab09c752
 +
 +inherit kernel
 +require recipes-kernel/linux/linux-yocto.inc
++
++# some 4.19.x LIC_FILE_CHECKSUM: 
++LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
 +
 +{{ if kernel_choice == "custom" and custom_kernel_remote == "y": }}
 +SRC_URI = "{{=custom_kernel_remote_path}};protocol=git;bareclone=1;branch=${KBRANCH}"
