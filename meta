@@ -1,7 +1,6 @@
 Version: 1
-Previous: 045eedc4dbec398987bf98bb269a39ac5769de8b
+Previous: 44fd7635db872e8b7790e92610d6243ddba55447
 Head: 0309d51ef07cacc07b1254bac3dfe1fd06658f3e
 Applied:
-  0004-make-bsp-tool-dunfell-compatible.patch: 0309d51ef07cacc07b1254bac3dfe1fd06658f3e
 Unapplied:
 Hidden:
