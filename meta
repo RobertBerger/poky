@@ -1,8 +1,7 @@
 Version: 1
-Previous: 0b2db45406c9fa893cb9f68bbd468ba2a04d071a
-Head: cf6f88b6d8b19420cc784495a94ed4a0acef9562
+Previous: 4d21aa62e0ebc38518dfde49a2fb29fce5a6c75e
+Head: d3d80fa6fbf15189f6183a33c95fa90053535ae2
 Applied:
-  0002-added-kernel-tooling-back-in-bsp-tooling-updated.patch: 06b55079bd4b70bee7f0356a87839f8341d677f6
-  0003-make-bsp-tool-dunfell-compatible.patch: cf6f88b6d8b19420cc784495a94ed4a0acef9562
+  added-kernel-tooling-back-in: d3d80fa6fbf15189f6183a33c95fa90053535ae2
 Unapplied:
 Hidden:

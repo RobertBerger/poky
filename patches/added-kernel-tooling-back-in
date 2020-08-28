@@ -1,12 +1,11 @@
 Bottom: c523a80b3c2cf751373dbe0c3d03f16b0f3a4d64
-Top:    595f77f805a6dbf7ff38934380961382a5ae1eff
+Top:    9fa3076191cf62962b91660fa47c9298fd492afb
 Author: Robert Berger <robert.berger@ReliableEmbeddedSystems.com>
-Date:   2019-11-20 11:28:34 +0200
+Date:   2020-08-28 11:31:12 +0300
 
 added kernel tooling back in, bsp tooling updated
 
 Signed-off-by: Robert Berger <robert.berger@ReliableEmbeddedSystems.com>
-
 
 ---
 
@@ -5252,7 +5251,7 @@ new file mode 100644
 index 0000000000..e69de29bb2
 diff --git a/scripts/lib/bsp/substrate/target/arch/common/conf/layer.conf b/scripts/lib/bsp/substrate/target/arch/common/conf/layer.conf
 new file mode 100644
-index 0000000000..b18c480656
+index 0000000000..5a914ef1ed
 --- /dev/null
 +++ b/scripts/lib/bsp/substrate/target/arch/common/conf/layer.conf
 @@ -0,0 +1,12 @@
@@ -5267,7 +5266,7 @@ index 0000000000..b18c480656
 +BBFILE_PATTERN_{{=machine}} = "^${LAYERDIR}/"
 +BBFILE_PRIORITY_{{=machine}} = "6"
 +
-+LAYERSERIES_COMPAT_{{=machine}} = "sumo thud warrior zeus"
++LAYERSERIES_COMPAT_{{=machine}} = "sumo thud warrior zeus dunfell"
 diff --git a/scripts/lib/bsp/substrate/target/arch/common/recipes-bsp/formfactor/formfactor/machine.noinstall b/scripts/lib/bsp/substrate/target/arch/common/recipes-bsp/formfactor/formfactor/machine.noinstall
 new file mode 100644
 index 0000000000..b442d02d57
