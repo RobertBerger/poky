@@ -1,7 +1,6 @@
 Version: 1
-Previous: 1941613dd3ad1c3cb6bdc2d0e09fc07dfbe4b5df
+Previous: 11d53fd54147afc21c72f114e93b3cb4c26880f1
 Head: d2877e208112ed479ab0b3a961aea87c31591d17
 Applied:
-  0002-cml1.bbclass-from-master-for-u-boot.patch: d2877e208112ed479ab0b3a961aea87c31591d17
 Unapplied:
 Hidden:
