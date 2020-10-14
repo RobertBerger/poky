@@ -1,6 +1,7 @@
 Version: 1
-Previous: 11d53fd54147afc21c72f114e93b3cb4c26880f1
-Head: d2877e208112ed479ab0b3a961aea87c31591d17
+Previous: 95811e7346f3781afeb9ecfa1461b2fd6e3b707a
+Head: 34eaf7daa95e7b25e6ddb0d7b7dcb3b6658e97dd
 Applied:
+  0003-allow-for-armv7-soft-and-hard-float-in-bsp-tool.patch: 34eaf7daa95e7b25e6ddb0d7b7dcb3b6658e97dd
 Unapplied:
 Hidden:
