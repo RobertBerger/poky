@@ -50,3 +50,9 @@ def sign_ipk(d, ipk_to_sign):
                        d.getVar('IPK_GPG_NAME'),
                        d.getVar('IPK_GPG_PASSPHRASE_FILE'),
                        armor=is_ascii_sig)
+
+
+do_package_index[depends] += "signing-keys:do_deploy"
+do_rootfs[depends] += "signing-keys:do_populate_sysroot"
+
+PACKAGE_WRITE_DEPS += "gnupg-native"
