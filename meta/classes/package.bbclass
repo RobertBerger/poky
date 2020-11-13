@@ -7,7 +7,7 @@
 #
 # There are the following default steps but PACKAGEFUNCS can be extended:
 #
-# a) package_get_auto_pr - get PRAUTO from remote PR service
+# a) package_convert_pr_autoinc - convert AUTOINC in PKGV to ${PRSERV_PV_AUTOINC}
 #
 # b) perform_packagecopy - Copy D into PKGD
 #
@@ -245,6 +245,8 @@ python () {
         deps = ""
         for dep in (d.getVar('PACKAGE_DEPENDS') or "").split():
             deps += " %s:do_populate_sysroot" % dep
+        if d.getVar('PACKAGE_MINIDEBUGINFO') == '1':
+            deps += ' xz-native:do_populate_sysroot'
         d.appendVarFlag('do_package', 'depends', deps)
 
         # shlibs requires any DEPENDS to have already packaged for the *.list files
@@ -459,6 +461,83 @@ def splitstaticdebuginfo(file, dvar, debugstaticdir, debugstaticlibdir, debugsta
 
     return (file, sources)
 
+def inject_minidebuginfo(file, dvar, debugdir, debuglibdir, debugappend, debugsrcdir, d):
+    # Extract just the symbols from debuginfo into minidebuginfo,
+    # compress it with xz and inject it back into the binary in a .gnu_debugdata section.
+    # https://sourceware.org/gdb/onlinedocs/gdb/MiniDebugInfo.html
+
+    import subprocess
+
+    readelf = d.getVar('READELF')
+    nm = d.getVar('NM')
+    objcopy = d.getVar('OBJCOPY')
+
+    minidebuginfodir = d.expand('${WORKDIR}/minidebuginfo')
+
+    src = file[len(dvar):]
+    dest = debuglibdir + os.path.dirname(src) + debugdir + "/" + os.path.basename(src) + debugappend
+    debugfile = dvar + dest
+    minidebugfile = minidebuginfodir + src + '.minidebug'
+    bb.utils.mkdirhier(os.path.dirname(minidebugfile))
+
+    # If we didn't produce debuginfo for any reason, we can't produce minidebuginfo either
+    # so skip it.
+    if not os.path.exists(debugfile):
+        bb.debug(1, 'ELF file {} has no debuginfo, skipping minidebuginfo injection'.format(file))
+        return
+
+    # Find non-allocated PROGBITS, NOTE, and NOBITS sections in the debuginfo.
+    # We will exclude all of these from minidebuginfo to save space.
+    remove_section_names = []
+    for line in subprocess.check_output([readelf, '-W', '-S', debugfile], universal_newlines=True).splitlines():
+        fields = line.split()
+        if len(fields) < 8:
+            continue
+        name = fields[0]
+        type = fields[1]
+        flags = fields[7]
+        # .debug_ sections will be removed by objcopy -S so no need to explicitly remove them
+        if name.startswith('.debug_'):
+            continue
+        if 'A' not in flags and type in ['PROGBITS', 'NOTE', 'NOBITS']:
+            remove_section_names.append(name)
+
+    # List dynamic symbols in the binary. We can exclude these from minidebuginfo
+    # because they are always present in the binary.
+    dynsyms = set()
+    for line in subprocess.check_output([nm, '-D', file, '--format=posix', '--defined-only'], universal_newlines=True).splitlines():
+        dynsyms.add(line.split()[0])
+
+    # Find all function symbols from debuginfo which aren't in the dynamic symbols table.
+    # These are the ones we want to keep in minidebuginfo.
+    keep_symbols_file = minidebugfile + '.symlist'
+    found_any_symbols = False
+    with open(keep_symbols_file, 'w') as f:
+        for line in subprocess.check_output([nm, debugfile, '--format=sysv', '--defined-only'], universal_newlines=True).splitlines():
+            fields = line.split('|')
+            if len(fields) < 7:
+                continue
+            name = fields[0].strip()
+            type = fields[3].strip()
+            if type == 'FUNC' and name not in dynsyms:
+                f.write('{}\n'.format(name))
+                found_any_symbols = True
+
+    if not found_any_symbols:
+        bb.debug(1, 'ELF file {} contains no symbols, skipping minidebuginfo injection'.format(file))
+        return
+
+    bb.utils.remove(minidebugfile)
+    bb.utils.remove(minidebugfile + '.xz')
+
+    subprocess.check_call([objcopy, '-S'] +
+                          ['--remove-section={}'.format(s) for s in remove_section_names] +
+                          ['--keep-symbols={}'.format(keep_symbols_file), debugfile, minidebugfile])
+
+    subprocess.check_call(['xz', '--keep', minidebugfile])
+
+    subprocess.check_call([objcopy, '--add-section', '.gnu_debugdata={}.xz'.format(minidebugfile), file])
+
 def copydebugsources(debugsrcdir, sources, d):
     # The debug src information written out to sourcefile is further processed
     # and copied to the destination here.
@@ -535,7 +614,7 @@ def copydebugsources(debugsrcdir, sources, d):
 # Package data handling routines
 #
 
-def get_package_mapping (pkg, basepkg, d):
+def get_package_mapping (pkg, basepkg, d, depversions=None):
     import oe.packagedata
 
     data = oe.packagedata.read_subpkgdata(pkg, d)
@@ -546,6 +625,14 @@ def get_package_mapping (pkg, basepkg, d):
         if bb.data.inherits_class('allarch', d) and not d.getVar('MULTILIB_VARIANTS') \
             and data[key] == basepkg:
             return pkg
+        if depversions == []:
+            # Avoid returning a mapping if the renamed package rprovides its original name
+            rprovkey = "RPROVIDES_%s" % pkg
+            if rprovkey in data:
+                if pkg in bb.utils.explode_dep_versions2(data[rprovkey]):
+                    bb.note("%s rprovides %s, not replacing the latter" % (data[key], pkg))
+                    return pkg
+        # Do map to rewritten package name
         return data[key]
 
     return pkg
@@ -566,8 +653,10 @@ def runtime_mapping_rename (varname, pkg, d):
 
     new_depends = {}
     deps = bb.utils.explode_dep_versions2(d.getVar(varname) or "")
-    for depend in deps:
-        new_depend = get_package_mapping(depend, pkg, d)
+    for depend, depversions in deps.items():
+        new_depend = get_package_mapping(depend, pkg, d, depversions)
+        if depend != new_depend:
+            bb.note("package name mapping done: %s -> %s" % (depend, new_depend))
         new_depends[new_depend] = deps[depend]
 
     d.setVar(varname, bb.utils.join_deps(new_depends, commasep=False))
@@ -575,12 +664,20 @@ def runtime_mapping_rename (varname, pkg, d):
     #bb.note("%s after: %s" % (varname, d.getVar(varname)))
 
 #
-# Package functions suitable for inclusion in PACKAGEFUNCS
+# Used by do_packagedata (and possibly other routines post do_package)
 #
 
+package_get_auto_pr[vardepsexclude] = "BB_TASKDEPDATA"
 python package_get_auto_pr() {
     import oe.prservice
-    import re
+
+    def get_do_package_hash(pn):
+        if d.getVar("BB_RUNTASK") != "do_package":
+            taskdepdata = d.getVar("BB_TASKDEPDATA", False)
+            for dep in taskdepdata:
+                if taskdepdata[dep][1] == "do_package" and taskdepdata[dep][0] == pn:
+                    return taskdepdata[dep][6]
+        return None
 
     # Support per recipe PRSERV_HOST
     pn = d.getVar('PN')
@@ -592,15 +689,22 @@ python package_get_auto_pr() {
 
     # PR Server not active, handle AUTOINC
     if not d.getVar('PRSERV_HOST'):
-        if 'AUTOINC' in pkgv:
-            d.setVar("PKGV", pkgv.replace("AUTOINC", "0"))
+        d.setVar("PRSERV_PV_AUTOINC", "0")
         return
 
     auto_pr = None
     pv = d.getVar("PV")
     version = d.getVar("PRAUTOINX")
     pkgarch = d.getVar("PACKAGE_ARCH")
-    checksum = d.getVar("BB_TASKHASH")
+    checksum = get_do_package_hash(pn)
+
+    # If do_package isn't in the dependencies, we can't get the checksum...
+    if not checksum:
+        bb.warn('Task %s requested do_package unihash, but it was not available.' % d.getVar('BB_RUNTASK'))
+        #taskdepdata = d.getVar("BB_TASKDEPDATA", False)
+        #for dep in taskdepdata:
+        #    bb.warn('%s:%s = %s' % (taskdepdata[dep][0], taskdepdata[dep][1], taskdepdata[dep][6]))
+        return
 
     if d.getVar('PRSERV_LOCKDOWN'):
         auto_pr = d.getVar('PRAUTO_' + version + '_' + pkgarch) or d.getVar('PRAUTO_' + version) or None
@@ -618,7 +722,7 @@ python package_get_auto_pr() {
                 srcpv = bb.fetch2.get_srcrev(d)
                 base_ver = "AUTOINC-%s" % version[:version.find(srcpv)]
                 value = conn.getPR(base_ver, pkgarch, srcpv)
-                d.setVar("PKGV", pkgv.replace("AUTOINC", str(value)))
+                d.setVar("PRSERV_PV_AUTOINC", str(value))
 
             auto_pr = conn.getPR(version, pkgarch, checksum)
     except Exception as e:
@@ -626,6 +730,22 @@ python package_get_auto_pr() {
     if auto_pr is None:
         bb.fatal("Can NOT get PRAUTO from remote PR service")
     d.setVar('PRAUTO',str(auto_pr))
+}
+
+#
+# Package functions suitable for inclusion in PACKAGEFUNCS
+#
+
+python package_convert_pr_autoinc() {
+    pkgv = d.getVar("PKGV")
+
+    # Adjust pkgv as necessary...
+    if 'AUTOINC' in pkgv:
+        d.setVar("PKGV", pkgv.replace("AUTOINC", "${PRSERV_PV_AUTOINC}"))
+
+    # Change PRSERV_PV_AUTOINC and EXTENDPRAUTO usage to special values
+    d.setVar('PRSERV_PV_AUTOINC', '@PRSERV_PV_AUTOINC@')
+    d.setVar('EXTENDPRAUTO', '@EXTENDPRAUTO@')
 }
 
 LOCALEBASEPN ??= "${PN}"
@@ -1112,6 +1232,9 @@ python split_and_strip_files () {
                 for file in staticlibs:
                     results.append( (file,source_info(file, d)) )
 
+        # Stash this for emit_pkgdata
+        d.setVar('TEMPDBGSRCMAPPING', results)
+
         sources = set()
         for r in results:
             sources.update(r[1])
@@ -1184,6 +1307,11 @@ python split_and_strip_files () {
                 sfiles.append((f, 16, strip))
 
         oe.utils.multiprocess_launch(oe.package.runstrip, sfiles, d)
+
+    # Build "minidebuginfo" and reinject it back into the stripped binaries
+    if d.getVar('PACKAGE_MINIDEBUGINFO') == '1':
+        oe.utils.multiprocess_launch(inject_minidebuginfo, list(elffiles), d,
+                                     extraargs=(dvar, debugdir, debuglibdir, debugappend, debugsrcdir, d))
 
     #
     # End of strip
@@ -1414,11 +1542,12 @@ EXPORT_FUNCTIONS package_name_hook
 
 PKGDESTWORK = "${WORKDIR}/pkgdata"
 
-PKGDATA_VARS = "PN PE PV PR PKGE PKGV PKGR LICENSE DESCRIPTION SUMMARY RDEPENDS RPROVIDES RRECOMMENDS RSUGGESTS RREPLACES RCONFLICTS SECTION PKG ALLOW_EMPTY FILES CONFFILES FILES_INFO pkg_postinst pkg_postrm pkg_preinst pkg_prerm"
+PKGDATA_VARS = "PN PE PV PR PKGE PKGV PKGR LICENSE DESCRIPTION SUMMARY RDEPENDS RPROVIDES RRECOMMENDS RSUGGESTS RREPLACES RCONFLICTS SECTION PKG ALLOW_EMPTY FILES CONFFILES FILES_INFO PACKAGE_ADD_METADATA pkg_postinst pkg_postrm pkg_preinst pkg_prerm"
 
 python emit_pkgdata() {
     from glob import glob
     import json
+    import subprocess
 
     def process_postinst_on_target(pkg, mlprefix):
         pkgval = d.getVar('PKG_%s' % pkg)
@@ -1504,6 +1633,8 @@ fi
 
     workdir = d.getVar('WORKDIR')
 
+    filemap = {}
+
     for pkg in packages.split():
         pkgval = d.getVar('PKG_%s' % pkg)
         if pkgval is None:
@@ -1516,6 +1647,9 @@ fi
         seen = set()
         for f in pkgfiles[pkg]:
             relpth = os.path.relpath(f, pkgdestpkg)
+            if not pkg in filemap:
+                filemap[pkg] = []
+            filemap[pkg].append(os.sep + relpth)
             fstat = os.lstat(f)
             files[os.sep + relpth] = fstat.st_size
             if fstat.st_ino not in seen:
@@ -1544,7 +1678,7 @@ fi
         # Symlinks needed for rprovides lookup
         rprov = d.getVar('RPROVIDES_%s' % pkg) or d.getVar('RPROVIDES')
         if rprov:
-            for p in rprov.strip().split():
+            for p in bb.utils.explode_deps(rprov):
                 subdata_sym = pkgdatadir + "/runtime-rprovides/%s/%s" % (p, pkg)
                 bb.utils.mkdirhier(os.path.dirname(subdata_sym))
                 oe.path.symlink("../../runtime/%s" % pkg, subdata_sym, True)
@@ -1570,6 +1704,65 @@ fi
         and not bb.data.inherits_class('packagegroup', d):
         write_extra_runtime_pkgs(global_variants, packages, pkgdatadir)
 
+    sourceresult = d.getVar('TEMPDBGSRCMAPPING', False)
+    sources = {}
+    if sourceresult:
+        for r in sourceresult:
+            sources[r[0]] = r[1]
+        with open(data_file + ".srclist", 'w') as f:
+            f.write(json.dumps(sources, sort_keys=True))
+
+        filelics = {}
+        for dirent in [d.getVar('PKGD'), d.getVar('STAGING_DIR_TARGET')]:
+            p = subprocess.Popen(["grep", 'SPDX-License-Identifier:', '-r', '-I'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=dirent)
+            out, err = p.communicate()
+            if p.returncode == 0:
+                for l in out.decode("utf-8").split("\n"):
+                    l = l.strip()
+                    if not l:
+                        continue
+                    l = l.split(":")
+                    if len(l) < 3:
+                        bb.warn(str(l))
+                        continue
+                    fn = "/" + l[0]
+                    lic = l[2].strip()
+                    if lic.endswith("*/"):
+                        lic = lic[:-2]
+                    lic = lic.strip()
+                    filelics[fn] = lic
+        with open(data_file + ".filelics", 'w') as f:
+            f.write(json.dumps(filelics, sort_keys=True))
+
+        computedlics = {}
+        computedpkglics = {}
+        for r in sourceresult:
+            for subf in r[1]:
+                if subf in filelics:
+                    if r[0] not in computedlics:
+                        computedlics[r[0]] = set()
+                    computedlics[r[0]].add(filelics[subf])
+        #if computedlics:
+        #    bb.warn(str(computedlics))
+        dvar = d.getVar('PKGD')
+        for f in computedlics:
+            shortf = f.replace(dvar, "")
+            found = False
+            for pkg in filemap:
+                if shortf in filemap[pkg]:
+                    found = True
+                    if pkg not in computedpkglics:
+                        computedpkglics[pkg] = set()
+                    computedpkglics[pkg].update(computedlics[f])
+            if not found:
+                bb.warn("%s not in %s" % (f, str(filemap)))
+        #if computedpkglics:
+        #    bb.warn(str(computedpkglics))
+        for pkg in computedpkglics:
+            lic = d.getVar('LICENSE_%s' % (pkg))
+            if not lic:
+                lic = d.getVar('LICENSE')
+            bb.warn("License for package %s is %s vs %s" % (pkg, computedpkglics[pkg], lic))
 }
 emit_pkgdata[dirs] = "${PKGDESTWORK}/runtime ${PKGDESTWORK}/runtime-reverse ${PKGDESTWORK}/runtime-rprovides"
 
@@ -1842,7 +2035,7 @@ python package_do_shlibs() {
         shlibs_file = os.path.join(shlibswork_dir, pkg + ".list")
         if len(sonames):
             with open(shlibs_file, 'w') as fd:
-                for s in sonames:
+                for s in sorted(sonames):
                     if s[0] in shlib_provider and s[1] in shlib_provider[s[0]]:
                         (old_pkg, old_pkgver) = shlib_provider[s[0]][s[1]]
                         if old_pkg != pkg:
@@ -2169,7 +2362,7 @@ python package_depchains() {
 
 # Since bitbake can't determine which variables are accessed during package
 # iteration, we need to list them here:
-PACKAGEVARS = "FILES RDEPENDS RRECOMMENDS SUMMARY DESCRIPTION RSUGGESTS RPROVIDES RCONFLICTS PKG ALLOW_EMPTY pkg_postinst pkg_postrm pkg_postinst_ontarget INITSCRIPT_NAME INITSCRIPT_PARAMS DEBIAN_NOAUTONAME ALTERNATIVE PKGE PKGV PKGR USERADD_PARAM GROUPADD_PARAM CONFFILES SYSTEMD_SERVICE LICENSE SECTION pkg_preinst pkg_prerm RREPLACES GROUPMEMS_PARAM SYSTEMD_AUTO_ENABLE SKIP_FILEDEPS PRIVATE_LIBS"
+PACKAGEVARS = "FILES RDEPENDS RRECOMMENDS SUMMARY DESCRIPTION RSUGGESTS RPROVIDES RCONFLICTS PKG ALLOW_EMPTY pkg_postinst pkg_postrm pkg_postinst_ontarget INITSCRIPT_NAME INITSCRIPT_PARAMS DEBIAN_NOAUTONAME ALTERNATIVE PKGE PKGV PKGR USERADD_PARAM GROUPADD_PARAM CONFFILES SYSTEMD_SERVICE LICENSE SECTION pkg_preinst pkg_prerm RREPLACES GROUPMEMS_PARAM SYSTEMD_AUTO_ENABLE SKIP_FILEDEPS PRIVATE_LIBS PACKAGE_ADD_METADATA"
 
 def gen_packagevar(d, pkgvars="PACKAGEVARS"):
     ret = []
@@ -2241,7 +2434,7 @@ python do_package () {
         package_qa_handle_error("var-undefined", msg, d)
         return
 
-    bb.build.exec_func("package_get_auto_pr", d)
+    bb.build.exec_func("package_convert_pr_autoinc", d)
 
     ###########################################################################
     # Optimisations
@@ -2313,9 +2506,20 @@ addtask do_package_setscene
 # Copy from PKGDESTWORK to tempdirectory as tempdirectory can be cleaned at both
 # do_package_setscene and do_packagedata_setscene leading to races
 python do_packagedata () {
+    bb.build.exec_func("package_get_auto_pr", d)
+
     src = d.expand("${PKGDESTWORK}")
     dest = d.expand("${WORKDIR}/pkgdata-pdata-input")
     oe.path.copyhardlinktree(src, dest)
+
+    bb.build.exec_func("packagedata_translate_pr_autoinc", d)
+}
+
+# Translate the EXTENDPRAUTO and AUTOINC to the final values
+packagedata_translate_pr_autoinc() {
+    find ${WORKDIR}/pkgdata-pdata-input -type f | xargs --no-run-if-empty \
+        sed -e 's,@PRSERV_PV_AUTOINC@,${PRSERV_PV_AUTOINC},g' \
+            -e 's,@EXTENDPRAUTO@,${EXTENDPRAUTO},g' -i
 }
 
 addtask packagedata before do_build after do_package
