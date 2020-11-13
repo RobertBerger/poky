@@ -1,8 +1,6 @@
 Version: 1
-Previous: 79b87d036fe22a583d394b041dcfd4a76263e4f8
+Previous: 4c7fc168bffb6b50bd7d6fb45e3aa068932a0890
 Head: 16cc3a12a5933fde53c030befed171cc871c620a
 Applied:
-  0004-RP-special-SPDX-experiment.patch: 43ac49c2c49da0a3fc82acbf3ab3164559c71e53
-  0005-ipk-package-package-feed-GPG-signing.patch: 16cc3a12a5933fde53c030befed171cc871c620a
 Unapplied:
 Hidden:
