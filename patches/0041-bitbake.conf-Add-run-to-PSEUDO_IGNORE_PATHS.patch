@@ -1,0 +1,31 @@
+Bottom: 5177e529dfd053f70023a5a16cd2caa7f86ce70d
+Top:    1335baff64513f8eb08cfee73adfefe8b15e5c61
+Author: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date:   2021-01-06 14:50:58 +0000
+
+bitbake.conf: Add /run/ to PSEUDO_IGNORE_PATHS
+
+Builds were failing on WSL2 which turns out to be due to accesses to
+/run/ on those systems. Add this to PSEUDO_IGNORE_PATHS to fix
+builds on WSL2.
+
+[YOCTO #14175]
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+
+---
+
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index a04005b0f5..be94b78eb1 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -685,7 +685,7 @@ SRC_URI = ""
+ PSEUDO_LOCALSTATEDIR ?= "${WORKDIR}/pseudo/"
+ PSEUDO_PASSWD ?= "${STAGING_DIR_TARGET}:${PSEUDO_SYSROOT}"
+ PSEUDO_SYSROOT = "${COMPONENTS_DIR}/${BUILD_ARCH}/pseudo-native"
+-PSEUDO_IGNORE_PATHS = "/usr/,/etc/,/lib,/dev/,${T},${WORKDIR}/recipe-sysroot,${SSTATE_DIR},${STAMPS_DIR},${WORKDIR}/pkgdata-sysroot,${TMPDIR}/sstate-control,${DEPLOY_DIR},${WORKDIR}/deploy-,${TMPDIR}/buildstats,${WORKDIR}/sstate-build-package_,${WORKDIR}/sstate-install-package_,${WORKDIR}/sstate-build-image_complete,${TMPDIR}/sysroots-components,${BUILDHISTORY_DIR},${TMPDIR}/pkgdata,${TOPDIR}/cache,${COREBASE}/scripts,${CCACHE_DIR}"
++PSEUDO_IGNORE_PATHS = "/usr/,/etc/,/lib,/dev/,/run/,${T},${WORKDIR}/recipe-sysroot,${SSTATE_DIR},${STAMPS_DIR},${WORKDIR}/pkgdata-sysroot,${TMPDIR}/sstate-control,${DEPLOY_DIR},${WORKDIR}/deploy-,${TMPDIR}/buildstats,${WORKDIR}/sstate-build-package_,${WORKDIR}/sstate-install-package_,${WORKDIR}/sstate-build-image_complete,${TMPDIR}/sysroots-components,${BUILDHISTORY_DIR},${TMPDIR}/pkgdata,${TOPDIR}/cache,${COREBASE}/scripts,${CCACHE_DIR}"
+ 
+ export PSEUDO_DISABLED = "1"
+ #export PSEUDO_PREFIX = "${STAGING_DIR_NATIVE}${prefix_native}"
