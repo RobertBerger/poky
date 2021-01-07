@@ -1,5 +1,5 @@
 Version: 1
-Previous: 9d351dbcfa58b752bcb88ffcf14fc1d11a6a1c0a
+Previous: 58f5ade8606770a71c7becab845d9fabd9025cc4
 Head: d9928413a40585ba8cbaccfff8d259fe69afd52e
 Applied:
 Unapplied:
@@ -7,5 +7,4 @@ Unapplied:
   0012-allow-for-armv7-soft-and-hard-float-in-bsp-tool.patch: c072271a03ae51e95a53344bc16531e6653a9fb5
   0021-hack-poky.conf-to-get-rid-of-snapshot.patch: b3a2ab2277af77cfd4f12b085701e8b463a7b81a
   0031-ipk-package-package-feed-GPG-signing.patch: e66fdae7a82bd90872ba5b380b6cd9eb386106a5
-  0041-bitbake.conf-Add-run-to-PSEUDO_IGNORE_PATHS.patch: a39c1d6447a5b57eba57adc00c81d05bf25e37ed
 Hidden:
