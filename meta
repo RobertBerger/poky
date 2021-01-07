@@ -1,8 +1,7 @@
 Version: 1
-Previous: d2afe4dc270d1f3500f60ab379bf11751e4df228
+Previous: 313e34836856cfc71b284e2c159dedf7c2d0f3c3
 Head: d9928413a40585ba8cbaccfff8d259fe69afd52e
 Applied:
 Unapplied:
   0011-added-kernel-tooling-back-in-bsp-tooling-updated.patch: fd6c2ef389b2f01f7bdc7e67ecc29236c66abfa7
-  0012-allow-for-armv7-soft-and-hard-float-in-bsp-tool.patch: c072271a03ae51e95a53344bc16531e6653a9fb5
 Hidden:
