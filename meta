@@ -1,6 +1,6 @@
 Version: 1
-Previous: 5f40a32ad4781db62bf150c8d06f7e1cb220e55c
-Head: 1a68d0af761a4033c6b581f87ba14d3485b34bb1
+Previous: f7977bba03a0a702d6898331b2f56143a20e7d02
+Head: cc0ed7956aab6ffedbf4112ce001583ab0010b01
 Applied:
   0011-added-kernel-tooling-back-in-bsp-tooling-updated.patch: fd6c2ef389b2f01f7bdc7e67ecc29236c66abfa7
   0012-allow-for-armv7-soft-and-hard-float-in-bsp-tool.patch: c072271a03ae51e95a53344bc16531e6653a9fb5
@@ -9,6 +9,6 @@ Applied:
   0041-bitbake.conf-Add-run-to-PSEUDO_IGNORE_PATHS.patch: a39c1d6447a5b57eba57adc00c81d05bf25e37ed
   0051-RP-special-SPDX-experiment.patch: fcf99d0f5fd776c77d4a2663c10c8615c1233ddf
   0061-toolchain-shar-template.patch: cc0ed7956aab6ffedbf4112ce001583ab0010b01
-  0062-toolchain-shar-extract.patch: 1a68d0af761a4033c6b581f87ba14d3485b34bb1
 Unapplied:
+  0062-toolchain-shar-extract.patch: 1a68d0af761a4033c6b581f87ba14d3485b34bb1
 Hidden:
