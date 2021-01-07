@@ -1,12 +1,6 @@
 Version: 1
-Previous: db774c01c566210952b340571e4bbaaca52f6828
+Previous: da53560efdebebf5e2a82557f9b515a0ee344b22
 Head: e6636310a883aed8d58a810c4b96082f05433818
 Applied:
-  0011-added-kernel-tooling-back-in-bsp-tooling-updated.patch: 7de6b1a3866ec624ea4f641fca6d23e11810394e
-  0012-allow-for-armv7-soft-and-hard-float-in-bsp-tool.patch: e8ecc98a1abea24f62a19321b36fbde9904fd848
-  0021-hack-poky.conf-to-get-rid-of-snapshot.patch: 93af71cf302c3933cbbac1a34b3b685d130f9b24
-  0031-ipk-package-package-feed-GPG-signing.patch: 354823751f198aaf1c9386318af16db588068002
-  0041-bitbake.conf-Add-run-to-PSEUDO_IGNORE_PATHS.patch: 210220d08b22071b6b8c0fcd0d74f5b34d001396
-  0051-RP-special-SPDX-experiment.patch: e6636310a883aed8d58a810c4b96082f05433818
 Unapplied:
 Hidden:
