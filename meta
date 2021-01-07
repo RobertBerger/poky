@@ -1,9 +1,10 @@
 Version: 1
-Previous: 7016884ef68f77fa04fc4f603f9e5f9a8f261109
-Head: b3a2ab2277af77cfd4f12b085701e8b463a7b81a
+Previous: dfdd15a1ace5dc404f62b3a6b287306b9b88d17e
+Head: e66fdae7a82bd90872ba5b380b6cd9eb386106a5
 Applied:
   0011-added-kernel-tooling-back-in-bsp-tooling-updated.patch: fd6c2ef389b2f01f7bdc7e67ecc29236c66abfa7
   0012-allow-for-armv7-soft-and-hard-float-in-bsp-tool.patch: c072271a03ae51e95a53344bc16531e6653a9fb5
   0021-hack-poky.conf-to-get-rid-of-snapshot.patch: b3a2ab2277af77cfd4f12b085701e8b463a7b81a
+  0031-ipk-package-package-feed-GPG-signing.patch: e66fdae7a82bd90872ba5b380b6cd9eb386106a5
 Unapplied:
 Hidden:
