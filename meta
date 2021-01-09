@@ -1,6 +1,7 @@
 Version: 1
-Previous: da53560efdebebf5e2a82557f9b515a0ee344b22
-Head: e6636310a883aed8d58a810c4b96082f05433818
+Previous: a705134f4e90f5cfbf3721e8a04b2bfa9bee43a9
+Head: 19a7a95eecc37760f6e2e1639a2d16285bdbdb5b
 Applied:
+  0013-update-5.10.x-LIC_FILES_CHKSUM.patch: 19a7a95eecc37760f6e2e1639a2d16285bdbdb5b
 Unapplied:
 Hidden:
