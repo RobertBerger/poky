@@ -1,7 +1,8 @@
 Version: 1
-Previous: 845d63f0360ef7ca3bed8af1deeb6b9b3fd2df2c
-Head: c18ee8c162daeb250a1247c0b8a17839e95eb8b3
+Previous: 90f34b501f455aad787e80f17b4bdf58ab7c6224
+Head: 150957231324c6269dca1d1d542d4871bb6af77e
 Applied:
   0011-added-kernel-tooling-back-in-bsp-tooling-updated.patch: c18ee8c162daeb250a1247c0b8a17839e95eb8b3
+  0021-hack-poky.conf-to-get-rid-of-snapshot.patch: 150957231324c6269dca1d1d542d4871bb6af77e
 Unapplied:
 Hidden:
