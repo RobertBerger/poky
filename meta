@@ -1,9 +1,10 @@
 Version: 1
-Previous: 612bc145cf0f85c11f00dd403ce25cf1f5d2db4c
-Head: 6facd99b1ce7ed7f74049a30ddc3d065a31a75c1
+Previous: ac81a6a2c4b174acf634e465222bd7fcf1078e85
+Head: a8fbfa760408c23bd3e88d4f334258dff2456a2b
 Applied:
   0011-added-kernel-tooling-back-in-bsp-tooling-updated.patch: c18ee8c162daeb250a1247c0b8a17839e95eb8b3
   0021-hack-poky.conf-to-get-rid-of-snapshot.patch: 150957231324c6269dca1d1d542d4871bb6af77e
   0031-ipk-package-package-feed-GPG-signing.patch: 6facd99b1ce7ed7f74049a30ddc3d065a31a75c1
+  0051-RP-special-SPDX-experiment.patch: a8fbfa760408c23bd3e88d4f334258dff2456a2b
 Unapplied:
 Hidden:
