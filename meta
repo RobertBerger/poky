@@ -1,6 +1,7 @@
 Version: 1
-Previous: 88f9416a6b2de137a8f77b611ec56386511fb410
-Head: a8fbfa760408c23bd3e88d4f334258dff2456a2b
+Previous: b64c8d2d019beea15938258897254ba66ccd06b6
+Head: f555b93d73520273863e1639afcf5d097221f5b4
 Applied:
+  0012-add-armv7athf-neon.patch: f555b93d73520273863e1639afcf5d097221f5b4
 Unapplied:
 Hidden:
