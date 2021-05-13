@@ -1,6 +1,7 @@
 Version: 1
-Previous: e0b62160dd6242cc2c70ecb75b23a5f9c4c29323
-Head: f555b93d73520273863e1639afcf5d097221f5b4
+Previous: af4abcff8301bd030a92d6e32050bddacb9c1e04
+Head: 0fd6fff5a328bd2338a3fc6e5d8a83160b4b13d5
 Applied:
+  0013-bsp-hardknott-support.patch: 0fd6fff5a328bd2338a3fc6e5d8a83160b4b13d5
 Unapplied:
 Hidden:
