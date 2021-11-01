@@ -1,7 +1,6 @@
 Version: 1
-Previous: ad0d0d8142ff8043bc48c97cae3f074d61e2aae0
+Previous: 7bbc4a1c7fd322f677ecae3ae8472da57a8d7c96
 Head: 661ad37ccf51ca06469981d076d09b3757da677e
 Applied:
-  0021-hack-poky.conf-to-get-rid-of-snapshot.patch: 661ad37ccf51ca06469981d076d09b3757da677e
 Unapplied:
 Hidden:
