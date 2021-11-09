@@ -1,6 +1,7 @@
 Version: 1
-Previous: 7bbc4a1c7fd322f677ecae3ae8472da57a8d7c96
-Head: 661ad37ccf51ca06469981d076d09b3757da677e
+Previous: fccb1675e6add65e096785c61d798bd2c1374f00
+Head: 5473079bc804ce4d67579c545a9c6d3aea646cbc
 Applied:
+  0011-added-kernel-tooling-back-in-bsp-tooling-update.patch: 5473079bc804ce4d67579c545a9c6d3aea646cbc
 Unapplied:
 Hidden:
