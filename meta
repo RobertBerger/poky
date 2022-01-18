@@ -1,7 +1,8 @@
 Version: 1
-Previous: 86a2c526aa8211d6e36be539dae1c2eeac4f1b6d
-Head: 0ee636a703d10a041be0111f2866fdc8d98da180
+Previous: 761984f5d1702787ecd1c7a01e5fb675a8e4573e
+Head: c45c21a50a4a1a7443338b8cbbaf946d385431d5
 Applied:
   0011-added-kernel-tooling-back-in-bsp-tooling-update.patch: 0ee636a703d10a041be0111f2866fdc8d98da180
+  0012-bsp-initial-honister-support.patch: c45c21a50a4a1a7443338b8cbbaf946d385431d5
 Unapplied:
 Hidden:
