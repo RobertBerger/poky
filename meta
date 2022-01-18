@@ -1,0 +1,8 @@
+Version: 1
+Previous: None
+Head: c3f50f747c8ee739919268e1c10980b93d1f3e64
+Applied:
+Unapplied:
+  0011-added-kernel-tooling-back-in-bsp-tooling-update.patch: 104e14a387e99fd260ba17786f334c32258acf56
+  0012-bsp-initial-honister-support.patch: 4fbfa4c4b4f2d6c1edcf33f3bd791fbce867c55e
+Hidden:
