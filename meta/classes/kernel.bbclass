@@ -647,6 +647,18 @@ FILES:${KERNEL_PACKAGE_NAME}-image = ""
 FILES:${KERNEL_PACKAGE_NAME}-dev = "/boot/System.map* /boot/Module.symvers* /boot/config* ${KERNEL_SRC_PATH} ${nonarch_base_libdir}/modules/${KERNEL_VERSION}/build"
 FILES:${KERNEL_PACKAGE_NAME}-vmlinux = "/boot/vmlinux-${KERNEL_VERSION_NAME}"
 FILES:${KERNEL_PACKAGE_NAME}-modules = ""
+# --> here we can add FILES to packages depending on PACKAGE_DEBUG_SPLIT_STYLE
+# @@@ at the moment I only added support for PACKAGE_DEBUG_SPLIT_STYLE = "debug-file-directory" since they are not detected automatically
+#     and we get with my kernel stuff:
+#   ...
+#   /usr/lib/debug/lib/modules/5.15.13-std/kernel/arch/arm/crypto/sha256-arm.ko.debug
+#   /usr/lib/debug/lib/modules/5.15.13-std/kernel/arch/arm/crypto/aes-arm-bs.ko.debug
+#   Please set FILES such that these items are packaged. Alternatively if they are unneeded, avoid installing them or delete them within do_install.
+#   linux-yocto-custom: 988 installed and not shipped files. [installed-vs-shipped]
+#   ERROR: linux-yocto-custom-5.15.13-std+gitAUTOINC+734eb1fd20-r0 do_package: Fatal QA errors were found, failing task
+FILES:${KERNEL_PACKAGE_NAME}-dbg += "${@bb.utils.contains('PACKAGE_DEBUG_SPLIT_STYLE', 'debug-file-directory', '/usr/lib/debug/* /usr/src/debug/*', '', d)}"
+# <-- here we can add FILES to packages depending on PACKAGE_DEBUG_SPLIT_STYLE
+
 RDEPENDS:${KERNEL_PACKAGE_NAME} = "${KERNEL_PACKAGE_NAME}-base (= ${EXTENDPKGV})"
 # Allow machines to override this dependency if kernel image files are
 # not wanted in images as standard
