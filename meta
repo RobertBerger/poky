@@ -1,9 +1,10 @@
 Version: 1
-Previous: 7c4c0c803788eaf79b5a36c8ff75cc7208fc18f4
-Head: f613b7e7bece133560e27a9a9025103a88052503
+Previous: 8a127c19f3391ed2f977f79acce4249c27a84d76
+Head: 08522bac0e90f1e1140ca2dbcb9e8d83533fa598
 Applied:
   0011-added-kernel-tooling-back-in-bsp-tooling-update.patch: 0ee636a703d10a041be0111f2866fdc8d98da180
   0012-bsp-initial-honister-support.patch: c45c21a50a4a1a7443338b8cbbaf946d385431d5
   0021-hack-poky.conf-to-get-rid-of-snapshot.patch: f613b7e7bece133560e27a9a9025103a88052503
+  0031-PACKAGE_DEBUG_SPLIT_STYLE-debug-file-directory-fails.patch: 08522bac0e90f1e1140ca2dbcb9e8d83533fa598
 Unapplied:
 Hidden:
