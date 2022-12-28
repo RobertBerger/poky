@@ -1,6 +1,7 @@
 Version: 1
-Previous: None
-Head: 7ec846be8be10183e2d69bc272a82a7611dfe286
+Previous: 932607023bb47936e27d0c4d0c0bf9fa6294e0f1
+Head: 519518894ad9d8bf4666de286524de9bb6620181
 Applied:
+  0001-connman-allow-rootfs-over-nfs.patch: 519518894ad9d8bf4666de286524de9bb6620181
 Unapplied:
 Hidden:
