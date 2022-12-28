@@ -11,6 +11,12 @@ AUTHOR = "Thomas Hood"
 HOMEPAGE = "http://packages.debian.org/resolvconf"
 RDEPENDS:${PN} = "bash sed util-linux-flock"
 
+# The normalize-resolvconf sed script uses /bin/sed on the shebang line.
+# Ignore the file-rdeps test so when using busybox we don't get an RDEPENDS error.
+#
+# busybox: /bin/sed -> /bin/busybox.nosuid
+INSANE_SKIP:${PN} += "file-rdeps"
+
 SRC_URI = "git://salsa.debian.org/debian/resolvconf.git;protocol=https;branch=unstable \
            file://99_resolvconf \
            file://0001-avoid-using-m-option-for-readlink.patch \
