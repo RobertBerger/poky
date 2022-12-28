@@ -1,10 +1,6 @@
 Version: 1
-Previous: 64284a6bc7c3857273cb592b6950173faaa61f5e
+Previous: 31f82b5ded0a54df36299ec7d1774aba0d956db4
 Head: 77c9d769926cb2f0fa3aae7162c6967eb2ea379c
 Applied:
-  0001-connman-allow-rootfs-over-nfs.patch: 519518894ad9d8bf4666de286524de9bb6620181
-  0002-poky-snapshot-.66.patch: c818a67e03fee1591a67b22022a0cb60b110a655
-  0011-added-kernel-tooling-back-in-bsp-tooling-updated.patch: 98d51a3b7db26c310ee7532d16db18bd154de82d
-  0012-bsp-initial-langdale-support.patch: 77c9d769926cb2f0fa3aae7162c6967eb2ea379c
 Unapplied:
 Hidden:
