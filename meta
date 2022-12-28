@@ -1,6 +1,7 @@
 Version: 1
-Previous: 31f82b5ded0a54df36299ec7d1774aba0d956db4
-Head: 77c9d769926cb2f0fa3aae7162c6967eb2ea379c
+Previous: abeefbe5a3d90df7a845876a53432651f02b2f66
+Head: 5a3b42bf6936596b397b62388b25af16837dd09b
 Applied:
+  0003-RDEPENDS-skip-e.g.-normalize-resolvconf-with-busybox.patch: 5a3b42bf6936596b397b62388b25af16837dd09b
 Unapplied:
 Hidden:
