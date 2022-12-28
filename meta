@@ -1,7 +1,8 @@
 Version: 1
-Previous: 932607023bb47936e27d0c4d0c0bf9fa6294e0f1
-Head: 519518894ad9d8bf4666de286524de9bb6620181
+Previous: f5e285201668c48568c68ee0f14da70c25e2c29e
+Head: c818a67e03fee1591a67b22022a0cb60b110a655
 Applied:
   0001-connman-allow-rootfs-over-nfs.patch: 519518894ad9d8bf4666de286524de9bb6620181
+  0002-poky-snapshot-.66.patch: c818a67e03fee1591a67b22022a0cb60b110a655
 Unapplied:
 Hidden:

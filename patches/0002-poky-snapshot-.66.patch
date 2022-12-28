@@ -1,0 +1,29 @@
+Bottom: 7ce0a0809ed26d881c8714671fb48240fde332de
+Top:    991c12b127b57b07292be0f94137e1e563ed06e0
+Author: Robert Berger <robert.berger@ReliableEmbeddedSystems.com>
+Date:   2022-12-28 13:40:16 +0100
+
+poky-snapshot .66
+
+Signed-off-by: Robert Berger <robert.berger@ReliableEmbeddedSystems.com>
+
+
+---
+
+diff --git a/meta-poky/conf/distro/poky.conf b/meta-poky/conf/distro/poky.conf
+index dc0e8e76ab..69f05b283d 100644
+--- a/meta-poky/conf/distro/poky.conf
++++ b/meta-poky/conf/distro/poky.conf
+@@ -1,8 +1,10 @@
+ DISTRO = "poky"
+ DISTRO_NAME = "Poky (Yocto Project Reference Distro)"
+ #DISTRO_VERSION = "4.1+snapshot-${METADATA_REVISION}"
+-DISTRO_VERSION = "4.1"
+-DISTRO_CODENAME = "langdale"
++#DISTRO_VERSION = "4.1"
++#DISTRO_CODENAME = "langdale"
++DISTRO_VERSION = "4.1.66"
++DISTRO_CODENAME = "master-as-langdale"
+ SDK_VENDOR = "-pokysdk"
+ SDK_VERSION = "${@d.getVar('DISTRO_VERSION').replace('snapshot-${METADATA_REVISION}', 'snapshot')}"
+ SDK_VERSION[vardepvalue] = "${SDK_VERSION}"
