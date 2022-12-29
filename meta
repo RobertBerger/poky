@@ -1,6 +1,7 @@
 Version: 1
-Previous: ba790580c7580ae7e233723856bd22981d95f414
-Head: 5a3b42bf6936596b397b62388b25af16837dd09b
+Previous: 3583071ce3d1674df552e775fc85b3567525c96a
+Head: f21c1dd4f46ffcc951e08e9b94256ba6ee97b670
 Applied:
+  0004-resolveconf-more-explanations-still-unclear.patch: f21c1dd4f46ffcc951e08e9b94256ba6ee97b670
 Unapplied:
 Hidden:
