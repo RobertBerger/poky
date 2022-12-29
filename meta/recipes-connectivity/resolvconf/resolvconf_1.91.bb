@@ -11,11 +11,25 @@ AUTHOR = "Thomas Hood"
 HOMEPAGE = "http://packages.debian.org/resolvconf"
 RDEPENDS:${PN} = "bash sed util-linux-flock"
 
+# -->
 # The normalize-resolvconf sed script uses /bin/sed on the shebang line.
-# Ignore the file-rdeps test so when using busybox we don't get an RDEPENDS error.
+# Ignore the file-rdeps test.
 #
-# busybox: /bin/sed -> /bin/busybox.nosuid
+# something wrong with this?:
+#
+# ERROR: resolvconf-1.91-r0 do_package_qa: QA Issue: /lib/resolvconf/normalize-resolvconf
+# contained in package resolvconf requires /bin/sed, but no providers found in RDEPENDS:resolvconf? [file-rdeps]
+# ERROR: resolvconf-1.91-r0 do_package_qa: Fatal QA errors were found, failing task.
+#
+# busybox:   ALTERNATIVE_PRIORITY="50"
+#
+# coreutils: ALTERNATIVE_PRIORITY="100" ??? sed in ptest?
+#
+# sed:       ALTERNATIVE_PRIORITY="100"
+#
+# hack:
 INSANE_SKIP:${PN} += "file-rdeps"
+# <--
 
 SRC_URI = "git://salsa.debian.org/debian/resolvconf.git;protocol=https;branch=unstable \
            file://99_resolvconf \
