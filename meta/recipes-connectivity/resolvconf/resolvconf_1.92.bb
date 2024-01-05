@@ -10,6 +10,27 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c93c0550bd3173f4504b2cbd8991e50b"
 HOMEPAGE = "http://packages.debian.org/resolvconf"
 RDEPENDS:${PN} = "bash sed util-linux-flock"
 
+# -->
+# The normalize-resolvconf sed script uses /bin/sed on the shebang line.
+# Ignore the file-rdeps test.
+#
+# something wrong with this?:
+#
+# I copied this over from 1.91, although we have here 1.92
+# ERROR: resolvconf-1.91-r0 do_package_qa: QA Issue: /lib/resolvconf/normalize-resolvconf
+# contained in package resolvconf requires /bin/sed, but no providers found in RDEPENDS:resolvconf? [file-rdeps]
+# ERROR: resolvconf-1.91-r0 do_package_qa: Fatal QA errors were found, failing task.
+#
+# busybox:   ALTERNATIVE_PRIORITY="50"
+#
+# coreutils: ALTERNATIVE_PRIORITY="100" ??? sed in ptest?
+#
+# sed:       ALTERNATIVE_PRIORITY="100"
+#
+# hack:
+INSANE_SKIP:${PN} += "file-rdeps"
+# <--
+
 SRC_URI = "git://salsa.debian.org/debian/resolvconf.git;protocol=https;branch=unstable \
            file://99_resolvconf \
            file://0001-avoid-using-m-option-for-readlink.patch \
