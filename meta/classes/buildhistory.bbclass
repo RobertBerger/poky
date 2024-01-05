@@ -692,7 +692,7 @@ python buildhistory_get_extra_sdkinfo() {
 # By using ROOTFS_POSTUNINSTALL_COMMAND we get in after uninstallation of
 # unneeded packages but before the removal of packaging files
 ROOTFS_POSTUNINSTALL_COMMAND += "buildhistory_list_installed_image"
-ROOTFS_POSTUNINSTALL_COMMAND += "buildhistory_get_image_installed"
+ROOTFS_POSTUNINSTALL_COMMAND += "buildhistory_get_image_installed "
 ROOTFS_POSTUNINSTALL_COMMAND[vardepvalueexclude] .= "| buildhistory_list_installed_image| buildhistory_get_image_installed"
 ROOTFS_POSTUNINSTALL_COMMAND[vardepsexclude] += "buildhistory_list_installed_image buildhistory_get_image_installed"
 
