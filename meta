@@ -1,6 +1,6 @@
 Version: 1
-Previous: 721f1d1b0756e4d86d4824d9ddd675f1c1aeb499
-Head: 252623a1848ff2d7683b69bb3e9c7e8843ae7d33
+Previous: b20271085b651e934ca2417b671e7d4892853fb9
+Head: defa24a7dd6bf1ecbeee58bb2278c7b25c654b4d
 Applied:
   0001-connman-allow-rootfs-over-nfs.patch: 1eae7c4f35a7aefc07f9b0ddbd449604c929dbea
   0002-poky-snapshot-.66.patch: 72c99efa93853f410b5b8263c37cb695db81438d
@@ -11,5 +11,6 @@ Applied:
   0022-bsp-initial-nanbield-support.patch: 20b766ef1b92849242c72f78ea18c3e1466d1ec9
   0031-busybox-add-SERIAL_CONSOLES_CHECK.patch: 1d452a54d99dcfe393f2ac72a4d86d88ba4d80aa
   0032-sysvinit-inittab-add-SERIAL_CONSOLES_CHECK.patch: 252623a1848ff2d7683b69bb3e9c7e8843ae7d33
+  0040-avoid-errors-with-absolute-paths-from-go-vendor.bbcl.patch: defa24a7dd6bf1ecbeee58bb2278c7b25c654b4d
 Unapplied:
 Hidden:
