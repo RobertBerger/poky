@@ -1,8 +1,9 @@
 Version: 1
-Previous: a4b32f7b29d31c6eea435a5ce363b8acf86ad650
-Head: f2c10d9ad3ba6a85bbfae41ecc189a90c920ae55
+Previous: efbd3db4148f90aff61543f69fc8ad35d4ce38d3
+Head: a762a8f05d125430cbd3d9dd13c3c789a52525b7
 Applied:
   0002-poky-snapshot-.66.patch: f2c10d9ad3ba6a85bbfae41ecc189a90c920ae55
+  0003-RDEPENDS-skip-e.g.-normalize-resolvconf-with-busybox.patch: a762a8f05d125430cbd3d9dd13c3c789a52525b7
 Unapplied:
   0001-connman-allow-rootfs-over-nfs.patch: fe13b4a1cd41405e7e836d3006e8608e9bec0d34
 Hidden:
