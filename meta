@@ -1,6 +1,6 @@
 Version: 1
-Previous: 4774ead5d077567287c000c658d8b639a658c297
-Head: 20b766ef1b92849242c72f78ea18c3e1466d1ec9
+Previous: 89c7650babf7328adf6b911cc77839d3cd0b806c
+Head: 1d452a54d99dcfe393f2ac72a4d86d88ba4d80aa
 Applied:
   0001-connman-allow-rootfs-over-nfs.patch: 1eae7c4f35a7aefc07f9b0ddbd449604c929dbea
   0002-poky-snapshot-.66.patch: 72c99efa93853f410b5b8263c37cb695db81438d
@@ -9,5 +9,6 @@ Applied:
   0011-avoid-do_rootfs-Function-buildhistory_get_image_inst.patch: c5ac3eb0bff333db44f282b901c8ec25f670e554
   0021-added-kernel-tooling-back-in-bsp-tooling-updated.patch: f5155a217dbf829042e23dcd0a8aef8bb9ad1904
   0022-bsp-initial-nanbield-support.patch: 20b766ef1b92849242c72f78ea18c3e1466d1ec9
+  0031-busybox-add-SERIAL_CONSOLES_CHECK.patch: 1d452a54d99dcfe393f2ac72a4d86d88ba4d80aa
 Unapplied:
 Hidden:
