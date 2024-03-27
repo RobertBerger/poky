@@ -1,10 +1,11 @@
 Version: 1
-Previous: c577d73896b084edd729f56ba32f70ff6f9ca3f7
-Head: 0b03a664c490d361eae33b540d6f105e92616e7c
+Previous: ee9a16362a85b37fb160be00f0811f9ad1f45518
+Head: 22b5c8cd153579d591e1b029ca5c26bdca699f24
 Applied:
   0002-poky-snapshot-.66.patch: f2c10d9ad3ba6a85bbfae41ecc189a90c920ae55
   0003-RDEPENDS-skip-e.g.-normalize-resolvconf-with-busybox.patch: a762a8f05d125430cbd3d9dd13c3c789a52525b7
   0010-optionally-pass-initrd-from-.wks-.in-via-sourceparam.patch: 0b03a664c490d361eae33b540d6f105e92616e7c
+  0011-avoid-do_rootfs-Function-buildhistory_get_image_inst.patch: 22b5c8cd153579d591e1b029ca5c26bdca699f24
 Unapplied:
   0001-connman-allow-rootfs-over-nfs.patch: fe13b4a1cd41405e7e836d3006e8608e9bec0d34
 Hidden:
