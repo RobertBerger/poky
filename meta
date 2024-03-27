@@ -1,6 +1,6 @@
 Version: 1
-Previous: aea027d6182148a9f3b20053df109284c334bfc0
-Head: f5155a217dbf829042e23dcd0a8aef8bb9ad1904
+Previous: 4774ead5d077567287c000c658d8b639a658c297
+Head: 20b766ef1b92849242c72f78ea18c3e1466d1ec9
 Applied:
   0001-connman-allow-rootfs-over-nfs.patch: 1eae7c4f35a7aefc07f9b0ddbd449604c929dbea
   0002-poky-snapshot-.66.patch: 72c99efa93853f410b5b8263c37cb695db81438d
@@ -8,5 +8,6 @@ Applied:
   0010-optionally-pass-initrd-from-.wks-.in-via-sourceparam.patch: e69e5e2400134cc1fb3d8d0bcad2764344715338
   0011-avoid-do_rootfs-Function-buildhistory_get_image_inst.patch: c5ac3eb0bff333db44f282b901c8ec25f670e554
   0021-added-kernel-tooling-back-in-bsp-tooling-updated.patch: f5155a217dbf829042e23dcd0a8aef8bb9ad1904
+  0022-bsp-initial-nanbield-support.patch: 20b766ef1b92849242c72f78ea18c3e1466d1ec9
 Unapplied:
 Hidden:
