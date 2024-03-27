@@ -1,0 +1,25 @@
+Bottom: daa8dae45744b7b90b5a68d9dcbb434cad5af9c8
+Top:    622b989e58953163315491acb8f7b4767571869c
+Author: student <student@ReliableEmbeddedSystems.com>
+Date:   2024-03-27 18:04:02 +0000
+
+avoid errors with absolute paths from go-vendor.bbclass
+
+Signed-off-by: student <student@ReliableEmbeddedSystems.com>
+
+
+---
+
+diff --git a/meta/classes/go-vendor.bbclass b/meta/classes/go-vendor.bbclass
+index 1bbb99ac79..6f43a09a40 100644
+--- a/meta/classes/go-vendor.bbclass
++++ b/meta/classes/go-vendor.bbclass
+@@ -14,7 +14,7 @@
+ # folder. Additionally a manifest file is generated for the 'vendor' folder
+ # 
+ 
+-inherit go-mod
++inherit go-mod relative_symlinks
+ 
+ def go_src_uri(repo, version, path=None, subdir=None, \
+                 vcs='git', replaces=None, pathmajor=None):
