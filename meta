@@ -1,9 +1,10 @@
 Version: 1
-Previous: fc54ac735f8f9192cf64b552c8d8740470c90841
-Head: 991f838f74e2f356a41acd19e66e71f9c25a3351
+Previous: ffea73e29201ed605e304f819580fc5026ff1d58
+Head: e69e5e2400134cc1fb3d8d0bcad2764344715338
 Applied:
   0001-connman-allow-rootfs-over-nfs.patch: 1eae7c4f35a7aefc07f9b0ddbd449604c929dbea
   0002-poky-snapshot-.66.patch: 72c99efa93853f410b5b8263c37cb695db81438d
   0003-RDEPENDS-skip-e.g.-normalize-resolvconf-with-busybox.patch: 991f838f74e2f356a41acd19e66e71f9c25a3351
+  0010-optionally-pass-initrd-from-.wks-.in-via-sourceparam.patch: e69e5e2400134cc1fb3d8d0bcad2764344715338
 Unapplied:
 Hidden:
