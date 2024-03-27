@@ -1,6 +1,6 @@
 Version: 1
-Previous: b11325a20080c82141f3e6d26d8129e485194f49
-Head: 230503f3e289e89b3558bf5674f1a7cc58b58387
+Previous: 93a3eed8dc22b3174e10299b15d15a71105065b7
+Head: 6753779b819c28ccda1447e9befdf44ba0086d50
 Applied:
   0002-poky-snapshot-.66.patch: f2c10d9ad3ba6a85bbfae41ecc189a90c920ae55
   0003-RDEPENDS-skip-e.g.-normalize-resolvconf-with-busybox.patch: a762a8f05d125430cbd3d9dd13c3c789a52525b7
@@ -9,6 +9,7 @@ Applied:
   0021-added-kernel-tooling-back-in-bsp-tooling-updated.patch: d8689ea44e2088a441fed92aba4695b57619a5c3
   0022-bsp-initial-nanbield-support.patch: 8221b9ba7cbba103b30bd6f9187c677dfc05166f
   0031-busybox-add-SERIAL_CONSOLES_CHECK.patch: 230503f3e289e89b3558bf5674f1a7cc58b58387
+  0032-sysvinit-inittab-add-SERIAL_CONSOLES_CHECK.patch: 6753779b819c28ccda1447e9befdf44ba0086d50
 Unapplied:
   0001-connman-allow-rootfs-over-nfs.patch: fe13b4a1cd41405e7e836d3006e8608e9bec0d34
 Hidden:

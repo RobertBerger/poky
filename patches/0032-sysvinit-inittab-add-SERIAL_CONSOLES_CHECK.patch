@@ -1,0 +1,50 @@
+Bottom: ecbcc73e816539f5afcfd2cebe4e92e6ce5284fe
+Top:    daa8dae45744b7b90b5a68d9dcbb434cad5af9c8
+Author: Robert Berger <Robert.Berger@ReliableEmbeddedSystems.com>
+Date:   2024-01-06 18:36:26 +0000
+
+sysvinit-inittab: add SERIAL_CONSOLES_CHECK
+
+Signed-off-by: Robert Berger <Robert.Berger@ReliableEmbeddedSystems.com>
+
+
+---
+
+diff --git a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
+index 6bbe517df1..ed74f71c54 100644
+--- a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
++++ b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
+@@ -52,6 +52,33 @@ EOF
+     fi
+ }
+ 
++pkg_postinst:${PN} () {
++# run this on host and on target
++if [ "${SERIAL_CONSOLES_CHECK}" = "" ]; then
++       exit 0
++fi
++}
++
++pkg_postinst_ontarget:${PN} () {
++# run this on the target
++if [ -e /proc/consoles ]; then
++        tmp="${SERIAL_CONSOLES_CHECK}"
++        for i in $tmp
++        do
++                j=`echo ${i} | sed -e s/^.*\;//g -e s/\:.*//g`
++                k=`echo ${i} | sed s/^.*\://g`
++                if [ -z "`grep ${j} /proc/consoles`" ]; then
++                        if [ -z "${k}" ] || [ -z "`grep ${k} /proc/consoles`" ] || [ ! -e /dev/${j} ]; then
++                                sed -i -e /^.*${j}\ /d -e /^.*${j}$/d /etc/inittab
++                        fi
++                fi
++        done
++        kill -HUP 1
++else
++        exit 1
++fi
++}
++
+ # USE_VT and SERIAL_CONSOLES are generally defined by the MACHINE .conf.
+ # Set PACKAGE_ARCH appropriately.
+ PACKAGE_ARCH = "${MACHINE_ARCH}"
